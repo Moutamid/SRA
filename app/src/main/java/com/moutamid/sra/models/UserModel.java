@@ -1,18 +1,47 @@
 package com.moutamid.sra.models;
 
 public class UserModel {
-    String username, email, password, whatsapp, referralCode, invitationCode;
+    String ID, username, email, password, whatsapp, referralCode, invitationCode;
+    int vipLevel;
+    boolean isVIP;
 
     public UserModel() {
     }
 
-    public UserModel(String username, String email, String password, String whatsapp, String referralCode, String invitationCode) {
+    public UserModel(String ID, String username, String email, String password, String whatsapp, String referralCode, String invitationCode, int vipLevel, boolean isVIP) {
+        this.ID = ID;
         this.username = username;
         this.email = email;
         this.password = password;
         this.whatsapp = whatsapp;
         this.referralCode = referralCode;
         this.invitationCode = invitationCode;
+        this.vipLevel = vipLevel;
+        this.isVIP = isVIP;
+    }
+
+    public int getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(int vipLevel) {
+        this.vipLevel = vipLevel;
+    }
+
+    public boolean isVIP() {
+        return isVIP;
+    }
+
+    public void setVIP(boolean VIP) {
+        isVIP = VIP;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getUsername() {
