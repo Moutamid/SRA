@@ -211,6 +211,7 @@
                         android:layout_margin="12dp">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/deposit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/deposit_bg"
@@ -244,6 +245,7 @@
                         android:layout_margin="12dp">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/withdraw"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/withdraw_bg"

@@ -9,4 +9,6 @@
     <string name="invitation_code"><font color="#ff0000">*</font> Invitation code</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam, saepe?</string>
+    <string name="how_to_deposit"><font color="#fc801c"><b>1</b></font> - Copy the Given HashKey\n\n<font color="#fc801c"><b>2</b></font> - Send money to the Binance Account of given Hash Key\n\n<font color="#fc801c"><b>3</b></font> - Send us a proof with the screenshot of the your transaction</string>
 </resources>

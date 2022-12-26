@@ -17,8 +17,10 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.R;
 import com.moutamid.sra.SplashScreenActivity;
+import com.moutamid.sra.WithdrawActivity;
 import com.moutamid.sra.databinding.FragmentProfileBinding;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
@@ -63,6 +65,14 @@ public class ProfileFragment extends Fragment {
             Constants.auth().signOut();
             startActivity(new Intent(context, SplashScreenActivity.class));
             getActivity().finish();
+        });
+
+        binding.deposit.setOnClickListener(v -> {
+            startActivity(new Intent(context, DepositActivity.class));
+        });
+
+        binding.withdraw.setOnClickListener(v -> {
+            startActivity(new Intent(context, WithdrawActivity.class));
         });
 
         return view;
