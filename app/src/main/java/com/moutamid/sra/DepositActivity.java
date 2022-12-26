@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,18 +17,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moutamid.sra.databinding.ActivityDepositBinding;
+import com.moutamid.sra.models.DepositRequestModel;
 import com.moutamid.sra.utils.Constants;
+
+import java.util.UUID;
 
 public class DepositActivity extends AppCompatActivity {
     ActivityDepositBinding binding;
     private static final int PICK_FROM_GALLERY = 1;
     Uri imageURI;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDepositBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        progressDialog = new ProgressDialog(DepositActivity.this);
+        progressDialog.setMessage("Sending Your Request...");
+        progressDialog.setCancelable(false);
 
         binding.back.setOnClickListener(v -> {
             onBackPressed();
@@ -50,7 +59,38 @@ public class DepositActivity extends AppCompatActivity {
 
         binding.btnSend.setOnClickListener(v -> {
             if (validate()){
-
+                String uid = UUID.randomUUID().toString();
+                progressDialog.show();
+                Constants.storageReference(Constants.auth().getCurrentUser().getUid()).child("depositRequest").child(uid).child("image")
+                        .putFile(imageURI)
+                        .addOnSuccessListener( taskSnapshot -> {
+                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                                DepositRequestModel model = new DepositRequestModel(
+                                        uid,
+                                        uri.toString(),
+                                        binding.amount.getEditText().getText().toString(),
+                                        Constants.auth().getCurrentUser().getUid()
+                                );
+                                Constants.databaseReference().child("depositRequest").child(Constants.auth().getCurrentUser().getUid())
+                                        .child(uid).setValue(model).addOnSuccessListener(unused -> {
+                                            progressDialog.dismiss();
+                                            imageURI = null;
+                                            binding.amount.getEditText().setText("");
+                                            binding.addImage.setImageDrawable(getDrawable(R.drawable.add_image));
+                                            Toast.makeText(this, "Request Sent Successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "You can go back now", Toast.LENGTH_SHORT).show();
+                                        }).addOnFailureListener(e -> {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            }).addOnFailureListener(e -> {
+                                progressDialog.dismiss();
+                                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                        }).addOnFailureListener(e -> {
+                            progressDialog.dismiss();
+                            Toast.makeText(DepositActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
             }
         });
 
