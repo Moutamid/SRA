@@ -14,6 +14,11 @@ import com.moutamid.sra.databinding.ActivityMainBinding;
 import com.moutamid.sra.fragments.HistoryFragment;
 import com.moutamid.sra.fragments.HomeFragment;
 import com.moutamid.sra.fragments.ProfileFragment;
+import com.moutamid.sra.models.UserModel;
+import com.moutamid.sra.utils.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -25,8 +30,48 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                        .get()
+                .addOnSuccessListener(dataSnapshot -> {
+                    UserModel model = dataSnapshot.getValue(UserModel.class);
+
+                    if (!model.isReceivePrice()){
+                        Map<String, Object> update = new HashMap<>();
+                        update.put("assets", 25);
+                        update.put("receivePrice", true);
+                        Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                                .updateChildren(update)
+                                .addOnSuccessListener(unused -> {
+                                    updateReferal(model.getInvitationCode());
+                                }).addOnFailureListener(e -> {
+
+                                });
+                    }
+
+                }).addOnFailureListener(e -> {
+
+                });
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
         binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
+    }
+
+    private void updateReferal(String ID) {
+        Map<String, Object> update = new HashMap<>();
+        Constants.databaseReference().child("users").child(ID)
+                .get().addOnSuccessListener(dataSnapshot -> {
+                    UserModel model = dataSnapshot.getValue(UserModel.class);
+                    int assets = model.getAssets();
+                    update.put("assets", assets + 25);
+                    Constants.databaseReference().child("users").child(ID)
+                            .updateChildren(update).addOnSuccessListener(unused -> {
+
+                            }).addOnFailureListener(e -> {
+
+                            });
+                }).addOnFailureListener(e -> {
+
+                });
     }
 
     @Override

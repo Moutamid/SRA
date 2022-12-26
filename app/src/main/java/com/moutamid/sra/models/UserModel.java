@@ -2,13 +2,25 @@ package com.moutamid.sra.models;
 
 public class UserModel {
     String ID, username, email, password, whatsapp, referralCode, invitationCode;
-    int vipLevel;
-    boolean isVIP;
+    int vipLevel, assets;
+    boolean isVIP, receivePrice;
 
     public UserModel() {
     }
 
-    public UserModel(String ID, String username, String email, String password, String whatsapp, String referralCode, String invitationCode, int vipLevel, boolean isVIP) {
+    public UserModel(String ID, String username, String email, String password, String whatsapp, String referralCode, String invitationCode, int assets, boolean receivePrice) {
+        this.ID = ID;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.whatsapp = whatsapp;
+        this.referralCode = referralCode;
+        this.invitationCode = invitationCode;
+        this.assets = assets;
+        this.receivePrice = receivePrice;
+    }
+
+    public UserModel(String ID, String username, String email, String password, String whatsapp, String referralCode, String invitationCode, int vipLevel, int assets, boolean isVIP, boolean receivePrice) {
         this.ID = ID;
         this.username = username;
         this.email = email;
@@ -17,7 +29,25 @@ public class UserModel {
         this.referralCode = referralCode;
         this.invitationCode = invitationCode;
         this.vipLevel = vipLevel;
+        this.assets = assets;
         this.isVIP = isVIP;
+        this.receivePrice = receivePrice;
+    }
+
+    public boolean isReceivePrice() {
+        return receivePrice;
+    }
+
+    public void setReceivePrice(boolean receivePrice) {
+        this.receivePrice = receivePrice;
+    }
+
+    public int getAssets() {
+        return assets;
+    }
+
+    public void setAssets(int assets) {
+        this.assets = assets;
     }
 
     public int getVipLevel() {
