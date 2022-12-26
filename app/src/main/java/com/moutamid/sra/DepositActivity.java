@@ -68,7 +68,7 @@ public class DepositActivity extends AppCompatActivity {
                                 DepositRequestModel model = new DepositRequestModel(
                                         uid,
                                         uri.toString(),
-                                        binding.amount.getEditText().getText().toString(),
+                                        Integer.parseInt(binding.amount.getEditText().getText().toString()),
                                         Constants.auth().getCurrentUser().getUid()
                                 );
                                 Constants.databaseReference().child("depositRequest").child(Constants.auth().getCurrentUser().getUid())
