@@ -61,7 +61,8 @@ public class HomeFragment extends Fragment {
         });
 
         binding.withdraw.setOnClickListener(v -> {
-            startActivity(new Intent(context, WithdrawActivity.class));
+            Intent i = new Intent(context, WithdrawActivity.class);
+            startActivity(i);
         });
 
         return view;

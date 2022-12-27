@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sra.DepositActivity;
+import com.moutamid.sra.InviteFriendsActivity;
 import com.moutamid.sra.R;
 import com.moutamid.sra.SplashScreenActivity;
 import com.moutamid.sra.WithdrawActivity;
@@ -71,7 +72,17 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(context, DepositActivity.class));
         });
 
+        binding.invite.setOnClickListener(v -> {
+            startActivity(new Intent(context, InviteFriendsActivity.class));
+        });
+
         binding.withdraw.setOnClickListener(v -> {
+            Intent i = new Intent(context, WithdrawActivity.class);
+            i.putExtra("amount", binding.totalAssetsCount.getText().toString());
+            startActivity(i);
+        });
+
+        binding.history.setOnClickListener(v -> {
             startActivity(new Intent(context, WithdrawActivity.class));
         });
 

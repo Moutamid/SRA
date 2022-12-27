@@ -1,5 +1,6 @@
 package com.moutamid.sra;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,12 +24,17 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     ActivityMainBinding binding;
-
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                         .get()
@@ -44,12 +50,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                 .addOnSuccessListener(unused -> {
                                     updateReferal(model.getInvitationCode());
                                 }).addOnFailureListener(e -> {
-
+                                    progressDialog.dismiss();
                                 });
+                    } else {
+                        progressDialog.dismiss();
                     }
 
                 }).addOnFailureListener(e -> {
-
+                    progressDialog.dismiss();
                 });
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
@@ -65,12 +73,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     update.put("assets", assets + 25);
                     Constants.databaseReference().child("users").child(ID)
                             .updateChildren(update).addOnSuccessListener(unused -> {
-
+                                progressDialog.dismiss();
                             }).addOnFailureListener(e -> {
 
                             });
                 }).addOnFailureListener(e -> {
-
+                    progressDialog.dismiss();
                 });
     }
 

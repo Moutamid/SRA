@@ -23,7 +23,10 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="35dp"
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/white">
 
@@ -88,100 +91,6 @@
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_below="@id/totalAssetsCount"
-                    android:layout_marginTop="6dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Today's profits"
-                            android:layout_marginTop="12dp"
-                            android:textColor="@color/black"
-                            android:layout_gravity="top"
-                            android:textSize="14dp" />
-
-                        <TextView
-                            android:id="@+id/totalProfit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="0"
-                            android:gravity="bottom"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="bottom"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Promotion bonus"
-                            android:layout_marginTop="12dp"
-                            android:layout_gravity="top"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                        <TextView
-                            android:id="@+id/PromotionBonus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="0"
-                            android:gravity="bottom"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="bottom"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Accumulated profits"
-                            android:layout_marginTop="12dp"
-                            android:layout_gravity="top"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                        <TextView
-                            android:id="@+id/AccumulatedProfits"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="0"
-                            android:gravity="bottom"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="bottom"
-                            android:textColor="@color/black"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
