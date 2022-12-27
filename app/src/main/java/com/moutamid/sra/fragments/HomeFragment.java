@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +21,25 @@ import com.moutamid.sra.InviteFriendsActivity;
 import com.moutamid.sra.R;
 import com.moutamid.sra.RulesActivity;
 import com.moutamid.sra.WithdrawActivity;
+import com.moutamid.sra.adapter.TasksAdapter;
 import com.moutamid.sra.databinding.FragmentHomeBinding;
+import com.moutamid.sra.models.TasksModel;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     Context context;
+    String[] taskNames = {"Captcha"};
+    int[] taskAmount = {50};
+    int[] taskIncome = {10};
+    int[] taskImages = {R.drawable.captcha};
+    TasksAdapter adapter;
+    ArrayList<TasksModel> list;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -38,6 +50,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         context = view.getContext();
+
+        binding.tasks.setLayoutManager(new LinearLayoutManager(context));
+        binding.tasks.setHasFixedSize(false);
 
         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -75,6 +90,19 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(context, RulesActivity.class));
         });
 
+        getData();
+
+        adapter = new TasksAdapter(context, list);
+        binding.tasks.setAdapter(adapter);
+
         return view;
+    }
+
+    private void getData(){
+        list = new ArrayList<>();
+        for (int i=0; i< taskNames.length; i++) {
+            String uid = UUID.randomUUID().toString();
+            list.add(new TasksModel(uid, taskNames[i], taskAmount[i], taskIncome[i], taskImages[i], false));
+        }
     }
 }
