@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.moutamid.sra.AboutUsActivity;
 import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.InviteFriendsActivity;
 import com.moutamid.sra.R;
+import com.moutamid.sra.RulesActivity;
 import com.moutamid.sra.WithdrawActivity;
 import com.moutamid.sra.databinding.FragmentHomeBinding;
 import com.moutamid.sra.models.UserModel;
@@ -63,6 +65,14 @@ public class HomeFragment extends Fragment {
         binding.withdraw.setOnClickListener(v -> {
             Intent i = new Intent(context, WithdrawActivity.class);
             startActivity(i);
+        });
+
+        binding.aboutUS.setOnClickListener(v -> {
+            startActivity(new Intent(context, AboutUsActivity.class));
+        });
+
+        binding.rules.setOnClickListener(v -> {
+            startActivity(new Intent(context, RulesActivity.class));
         });
 
         return view;

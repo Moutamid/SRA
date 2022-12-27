@@ -231,6 +231,7 @@
                         android:layout_margin="12dp">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/aboutUS"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/about_us_bg"
@@ -264,6 +265,7 @@
                         android:layout_margin="12dp">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/rules"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/primary_color"
@@ -338,7 +340,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tasks"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tools:listitem="@layout/task_card"/>
 
         </LinearLayout>
 

@@ -15,6 +15,20 @@
         android:theme="@style/Theme.SRA"
         tools:targetApi="31">
         <activity
+            android:name=".RulesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AboutUsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".WithdrawActivity"
             android:exported="false">
             <meta-data
