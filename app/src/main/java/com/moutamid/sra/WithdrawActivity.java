@@ -87,7 +87,7 @@ public class WithdrawActivity extends AppCompatActivity {
                             binding.hashkey.getEditText().getText().toString(),
                             Constants.auth().getCurrentUser().getUid(),
                             Integer.parseInt(binding.amount.getEditText().getText().toString()), d.getTime(), "PEN", "WITH");
-                    Constants.databaseReference().child("withdrawRequests").child(Constants.auth().getCurrentUser().getUid())
+                    Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
                             .child(uid).setValue(model).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Request Send Successfully", Toast.LENGTH_SHORT).show();

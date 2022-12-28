@@ -74,7 +74,7 @@ public class DepositActivity extends AppCompatActivity {
                                         Integer.parseInt(binding.amount.getEditText().getText().toString()), d.getTime(),
                                         "PEN", "DEP"
                                 );
-                                Constants.databaseReference().child("depositRequest").child(Constants.auth().getCurrentUser().getUid())
+                                Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
                                         .child(uid).setValue(model).addOnSuccessListener(unused -> {
                                             progressDialog.dismiss();
                                             imageURI = null;
