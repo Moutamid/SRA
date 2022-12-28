@@ -1,66 +1,72 @@
 package com.moutamid.sra.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sra.R;
+import com.moutamid.sra.adapter.TransactionsAdapter;
+import com.moutamid.sra.databinding.FragmentHistoryCompleteBinding;
+import com.moutamid.sra.models.RequestModel;
+import com.moutamid.sra.utils.Constants;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HistoryCompleteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class HistoryCompleteFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FragmentHistoryCompleteBinding binding;
+    Context context;
+    ArrayList<RequestModel> list;
+    TransactionsAdapter adapter;
 
     public HistoryCompleteFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HistoryCompleteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HistoryCompleteFragment newInstance(String param1, String param2) {
-        HistoryCompleteFragment fragment = new HistoryCompleteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentHistoryCompleteBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        context = view.getContext();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_complete, container, false);
+        list = new ArrayList<>();
+
+        binding.recycler.setLayoutManager(new LinearLayoutManager(context));
+        binding.recycler.setHasFixedSize(false);
+
+        Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                                RequestModel model = snapshot1.getValue(RequestModel.class);
+                                if (model.getStatus().equals("COM")){
+                                    list.add(model);
+                                }
+                            }
+                            adapter = new TransactionsAdapter(context, list);
+                            binding.recycler.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        return view;
     }
 }
