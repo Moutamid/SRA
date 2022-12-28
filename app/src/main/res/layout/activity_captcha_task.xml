@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CaptchaTaskActivity">
 
     <RelativeLayout
@@ -35,6 +36,49 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:layout_below="@id/toolbar"
+        android:textSize="18sp"
+        android:textColor="@color/secondary_color"
+        android:text="To Obtain your income you have to complete the complete task" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_bg" />
+
+        <EditText
+            android:id="@+id/captcha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle"
+            android:layout_margin="25dp"
+            android:padding="12dp"
+            android:hint="Type Your Captcha Here" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textSize="18sp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:padding="12dp"
+            android:background="@drawable/circle" />
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

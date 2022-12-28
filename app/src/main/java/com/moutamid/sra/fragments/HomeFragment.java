@@ -127,9 +127,12 @@ public class HomeFragment extends Fragment {
     ClickListner clickListner = new ClickListner() {
         @Override
         public void onClick(TasksModel task) {
-            if (!task.isLock()){
-                if (task.getName().equals("Captcha")){
-                    startActivity(new Intent(context, CaptchaTaskActivity.class));
+            if (!task.isLock()) {
+                assets = Integer.parseInt(binding.totalAssetsCount.getText().toString().substring(1));
+                if (task.getName().equals("Captcha")) {
+                    Intent i = new Intent(context, CaptchaTaskActivity.class);
+                    i.putExtra("assets", assets);
+                    startActivity(i);
                 } else {
                     Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
                 }
