@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sra.AboutUsActivity;
+import com.moutamid.sra.CaptchaTaskActivity;
 import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.InviteFriendsActivity;
 import com.moutamid.sra.R;
@@ -43,11 +44,11 @@ import java.util.UUID;
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     Context context;
-    String[] taskNames = {"Captcha", "Amazon", "Dummy Task 1"};
-    int[] taskAmount = {50, 100, 150};
-    int[] taskIncome = {10, 30, 50};
-    int[] taskImages = {R.drawable.captcha, R.drawable.amazon, R.drawable.logo_bg};
-    boolean[] taskLockState = {false, true, true};
+    String[] taskNames = {"Captcha", "Amazon", "Dummy Task 1", "Dummy Task 2"};
+    int[] taskAmount = {50, 100, 150, 200};
+    int[] taskIncome = {10, 30, 50, 100};
+    int[] taskImages = {R.drawable.captcha, R.drawable.amazon, R.drawable.logo_bg, R.drawable.logo_bg};
+    boolean[] taskLockState = {false, true, true, true};
     TasksAdapter adapter;
     List<TasksModel> list;
     TaskDB database;
@@ -127,10 +128,13 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(TasksModel task) {
             if (!task.isLock()){
-                Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
+                if (task.getName().equals("Captcha")){
+                    startActivity(new Intent(context, CaptchaTaskActivity.class));
+                } else {
+                    Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
+                }
             } else {
                 assets = Integer.parseInt(binding.totalAssetsCount.getText().toString().substring(1));
-                Toast.makeText(context, ""+assets, Toast.LENGTH_SHORT).show();
                 dialog = new UnlockDialog((Activity) context, task, list, adapter, assets);
                 dialog.show();
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
