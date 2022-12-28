@@ -1,15 +1,34 @@
 package com.moutamid.sra.models;
 
-public class TasksModel {
-    String id, name;
-    int amount, income, image;
-    boolean isLock;
 
-    public TasksModel() {
-    }
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public TasksModel(String id, String name, int amount, int income, int image, boolean isLock) {
-        this.id = id;
+import java.io.Serializable;
+
+@Entity(tableName = "TaskTable")
+public class TasksModel implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    int id =0;
+
+    @ColumnInfo(name = "name")
+    String name = "";
+
+    @ColumnInfo(name = "amount")
+    int amount = 0;
+
+    @ColumnInfo(name = "income")
+    int income = 0;
+
+    @ColumnInfo(name = "image")
+    int image = 0;
+
+    @ColumnInfo(name = "isLock")
+    boolean isLock = true;
+
+    public TasksModel(String name, int amount, int income, int image, boolean isLock) {
         this.name = name;
         this.amount = amount;
         this.income = income;
@@ -17,20 +36,12 @@ public class TasksModel {
         this.isLock = isLock;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isLock() {
-        return isLock;
-    }
-
-    public void setLock(boolean lock) {
-        isLock = lock;
     }
 
     public String getName() {
@@ -63,5 +74,13 @@ public class TasksModel {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public boolean isLock() {
+        return isLock;
+    }
+
+    public void setLock(boolean lock) {
+        isLock = lock;
     }
 }

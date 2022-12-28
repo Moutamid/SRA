@@ -22,5 +22,6 @@
     <color name="invite_bg">#56a585</color>
     <color name="withdraw_bg">#f8b33d</color>
     <color name="deposit_bg">#a65cab</color>
+    <color name="card_bg">#C3C1C1</color>
 
 </resources>
