@@ -54,7 +54,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                 } else {
                     progressDialog.show();
                     Map<String, Object> map = new HashMap<>();
-                    map.put("assets", assets+30);
+                    map.put("assets", assets+10);
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();
