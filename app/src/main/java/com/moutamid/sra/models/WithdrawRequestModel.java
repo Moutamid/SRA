@@ -3,6 +3,8 @@ package com.moutamid.sra.models;
 public class WithdrawRequestModel {
     String ID, hashKey, userID;
     int amount;
+    long timestamps;
+    String status, type;
 
     public WithdrawRequestModel() {
     }
@@ -12,6 +14,40 @@ public class WithdrawRequestModel {
         this.hashKey = hashKey;
         this.userID = userID;
         this.amount = amount;
+    }
+
+    public WithdrawRequestModel(String ID, String hashKey, String userID, int amount, long timestamps, String status, String type) {
+        this.ID = ID;
+        this.hashKey = hashKey;
+        this.userID = userID;
+        this.amount = amount;
+        this.timestamps = timestamps;
+        this.status = status;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getTimestamps() {
+        return timestamps;
+    }
+
+    public void setTimestamps(long timestamps) {
+        this.timestamps = timestamps;
     }
 
     public String getID() {

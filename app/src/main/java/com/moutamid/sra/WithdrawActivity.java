@@ -13,6 +13,7 @@ import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.models.WithdrawRequestModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class WithdrawActivity extends AppCompatActivity {
@@ -81,10 +82,11 @@ public class WithdrawActivity extends AppCompatActivity {
                 if (isValid){
                     progressDialog.show();
                     String uid = UUID.randomUUID().toString();
+                    Date d = new Date();
                     WithdrawRequestModel model = new WithdrawRequestModel(uid,
                             binding.hashkey.getEditText().getText().toString(),
                             Constants.auth().getCurrentUser().getUid(),
-                            Integer.parseInt(binding.amount.getEditText().getText().toString()));
+                            Integer.parseInt(binding.amount.getEditText().getText().toString()), d.getTime(), "PEN", "WITH");
                     Constants.databaseReference().child("withdrawRequests").child(Constants.auth().getCurrentUser().getUid())
                             .child(uid).setValue(model).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();

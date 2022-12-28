@@ -20,6 +20,7 @@ import com.moutamid.sra.databinding.ActivityDepositBinding;
 import com.moutamid.sra.models.DepositRequestModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class DepositActivity extends AppCompatActivity {
@@ -65,11 +66,13 @@ public class DepositActivity extends AppCompatActivity {
                         .putFile(imageURI)
                         .addOnSuccessListener( taskSnapshot -> {
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
-                                DepositRequestModel model = new DepositRequestModel(
+                                Date d = new Date();
+                                DepositRequestModel model = new DepositRequestModel (
                                         uid,
                                         uri.toString(),
-                                        Integer.parseInt(binding.amount.getEditText().getText().toString()),
-                                        Constants.auth().getCurrentUser().getUid()
+                                        Constants.auth().getCurrentUser().getUid(),
+                                        Integer.parseInt(binding.amount.getEditText().getText().toString()), d.getTime(),
+                                        "PEN", "DEP"
                                 );
                                 Constants.databaseReference().child("depositRequest").child(Constants.auth().getCurrentUser().getUid())
                                         .child(uid).setValue(model).addOnSuccessListener(unused -> {

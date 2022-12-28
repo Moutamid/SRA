@@ -44,11 +44,10 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         app:menu="@menu/bottom_menu"
-        android:layout_margin="10dp"
         app:labelVisibilityMode="labeled"
-        android:background="@drawable/circle"
+        android:background="@color/border_color"
         app:itemTextColor="@color/secondary_color"
         android:layout_alignParentBottom="true" />
 

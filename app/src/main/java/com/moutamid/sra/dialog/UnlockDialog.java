@@ -89,7 +89,7 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
                             });
 
                 } else {
-                    Toast.makeText(c.getApplicationContext(), "Not Enough Coins", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c.getApplicationContext(), "Not Enough Assets", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btnCancel:

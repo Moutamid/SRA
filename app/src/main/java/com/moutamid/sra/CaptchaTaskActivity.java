@@ -46,7 +46,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         binding.image.setImageResource(captchaImages[i]);
 
         binding.btnNext.setOnClickListener(v -> {
-            if ((binding.captcha.getText().toString().length() >= 4 && binding.captcha.getText().toString().length() <= 6) ||
+            if ((binding.captcha.getText().toString().length() >= 4 && binding.captcha.getText().toString().length() <= 6) &&
                 !binding.captcha.getText().toString().isEmpty()){
                 ++i;
                 if (i < captchaImages.length){
@@ -54,7 +54,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                 } else {
                     progressDialog.show();
                     Map<String, Object> map = new HashMap<>();
-                    map.put("assets", assets+10);
+                    map.put("assets", assets+1);
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();

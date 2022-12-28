@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     Context context;
     String[] taskNames = {"Captcha", "Amazon", "Dummy Task 1", "Dummy Task 2"};
     int[] taskAmount = {50, 100, 150, 200};
-    int[] taskIncome = {10, 30, 50, 100};
+    int[] taskIncome = {1, 3, 5, 10};
     int[] taskImages = {R.drawable.captcha, R.drawable.amazon, R.drawable.sra_logo, R.drawable.sra_logo};
     boolean[] taskLockState = {false, true, true, true};
     TasksAdapter adapter;
