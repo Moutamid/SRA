@@ -296,6 +296,7 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:layout_weight="1"
+                        android:visibility="gone"
                         android:layout_margin="12dp">
 
                         <com.google.android.material.card.MaterialCardView

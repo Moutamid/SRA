@@ -99,10 +99,6 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(this, "Invitation Code is Required", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (binding.invitationCode.getEditText().getText().toString().length() < 6 || binding.invitationCode.getEditText().getText().toString().length() > 12){
-            Toast.makeText(this, "Invitation Code is not valid", Toast.LENGTH_SHORT).show();
-            return false;
-        }
         if (!binding.cnfrmPassword.getEditText().getText().toString().equals(binding.password.getEditText().getText().toString())){
             Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show();
             return false;
