@@ -37,6 +37,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
@@ -45,12 +46,23 @@
         android:textColor="@color/secondary_color"
         android:text="To Obtain your income you have to complete the complete task" />
 
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text"
+        android:text="Counter : 1/50"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_centerInParent="true"
         android:gravity="center"
-        android:layout_centerInParent="true">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/image"
@@ -62,21 +74,21 @@
             android:id="@+id/captcha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle"
             android:layout_margin="25dp"
-            android:padding="12dp"
-            android:hint="Type Your Captcha Here" />
+            android:background="@drawable/circle"
+            android:hint="Type Your Captcha Here"
+            android:padding="12dp" />
 
         <Button
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Next"
-            android:textSize="18sp"
-            android:layout_marginEnd="25dp"
             android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/circle"
             android:padding="12dp"
-            android:background="@drawable/circle" />
+            android:text="Next"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
