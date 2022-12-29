@@ -1,9 +1,11 @@
 package com.moutamid.sra.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -22,6 +24,8 @@ import com.moutamid.sra.models.RequestModel;
 import com.moutamid.sra.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HistoryAllFragment extends Fragment {
     FragmentHistoryAllBinding binding;
@@ -46,6 +50,7 @@ public class HistoryAllFragment extends Fragment {
 
         Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()){
@@ -53,6 +58,8 @@ public class HistoryAllFragment extends Fragment {
                                 RequestModel model = snapshot1.getValue(RequestModel.class);
                                 list.add(model);
                             }
+                            Collections.sort(list, Comparator.comparing(RequestModel::getTimestamps));
+                            Collections.reverse(list);
                             adapter = new TransactionsAdapter(context, list);
                             binding.recycler.setAdapter(adapter);
                         }
