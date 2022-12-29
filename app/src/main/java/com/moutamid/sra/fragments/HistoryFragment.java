@@ -31,6 +31,7 @@ public class HistoryFragment extends Fragment {
     FragmentHistoryBinding binding;
     Context context;
     ProgressDialog progressDialog;
+    ViewPagerAdapter viewPagerAdapter;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -42,7 +43,6 @@ public class HistoryFragment extends Fragment {
         View view = binding.getRoot();
         context = view.getContext();
 
-        setupViewPager(binding.viewPager);
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
@@ -51,9 +51,10 @@ public class HistoryFragment extends Fragment {
 
         new Handler().postDelayed(() -> {progressDialog.dismiss();}, 1000);
 
-        binding.tablayout.setupWithViewPager(binding.viewPager);
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        binding.viewPager.setAdapter(viewPagerAdapter);
 
-        binding.viewPager.setCurrentItem(0);
+        binding.tablayout.setupWithViewPager(binding.viewPager);
 
         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -72,43 +73,46 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getParentFragmentManager());
 
-        adapter.addFragment(new HistoryAllFragment(), "All");
-        adapter.addFragment(new HistoryPendingFragment(), "Pending");
-        adapter.addFragment(new HistoryCompleteFragment(), "Complete");
-        adapter.addFragment(new HistoryCanceledFragment(), "Canceled");
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        viewPager.setAdapter(adapter);
-    }
-
-    static class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager fm) {
+        public ViewPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
         }
 
+        @NonNull
         @Override
-        public Fragment getItem(int arg0) {
-            return this.mFragmentList.get(arg0);
+        public Fragment getItem(int position) {
+            Fragment fragment = null;
+            if (position == 0)
+                fragment = new HistoryAllFragment();
+            else if (position == 1)
+                fragment = new HistoryPendingFragment();
+            if (position == 2)
+                fragment = new HistoryCompleteFragment();
+            else if (position == 3)
+                fragment = new HistoryCanceledFragment();
+
+            return fragment;
         }
 
         @Override
         public int getCount() {
-            return this.mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            this.mFragmentList.add(fragment);
-            this.mFragmentTitleList.add(title);
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return this.mFragmentTitleList.get(position);
+            String title = null;
+            if (position == 0)
+                title = "All";
+            else if (position == 1)
+                title = "Pending";
+            if (position == 2)
+                title = "Complete";
+            else if (position == 3)
+                title = "Canceled";
+            return title;
         }
     }
 
