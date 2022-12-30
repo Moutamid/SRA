@@ -45,6 +45,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
             onBackPressed();
             finish();
         });
+
         binding.counter.setText("Total Captcha Completed : " + i + "/"+ list.size());
         binding.image.setImageResource(list.get(i).getImage());
 

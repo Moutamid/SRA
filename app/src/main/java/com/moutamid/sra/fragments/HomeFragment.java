@@ -26,6 +26,7 @@ import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.InviteFriendsActivity;
 import com.moutamid.sra.R;
 import com.moutamid.sra.RulesActivity;
+import com.moutamid.sra.TranslateTaskActivity;
 import com.moutamid.sra.WithdrawActivity;
 import com.moutamid.sra.adapter.TasksAdapter;
 import com.moutamid.sra.database.TaskDB;
@@ -38,17 +39,13 @@ import com.moutamid.sra.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     Context context;
-    String[] taskNames = {"Captcha", "Amazon", "Dummy Task 1", "Dummy Task 2"};
-    int[] taskAmount = {50, 100, 150, 200};
-    int[] taskIncome = {1, 3, 5, 10};
-    int[] taskImages = {R.drawable.captcha, R.drawable.amazon, R.drawable.sra_logo, R.drawable.sra_logo};
-    boolean[] taskLockState = {false, true, true, true};
     TasksAdapter adapter;
     List<TasksModel> list;
     TaskDB database;
@@ -129,8 +126,12 @@ public class HomeFragment extends Fragment {
         public void onClick(TasksModel task) {
             if (!task.isLock()) {
                 assets = Integer.parseInt(binding.totalAssetsCount.getText().toString().substring(1));
-                if (task.getName().equals("Captcha")) {
+                if (task.getName().equalsIgnoreCase("captcha")) {
                     Intent i = new Intent(context, CaptchaTaskActivity.class);
+                    i.putExtra("assets", assets);
+                    startActivity(i);
+                } else if (task.getName().equalsIgnoreCase("Translate Text")) {
+                    Intent i = new Intent(context, TranslateTaskActivity.class);
                     i.putExtra("assets", assets);
                     startActivity(i);
                 } else {
@@ -147,11 +148,16 @@ public class HomeFragment extends Fragment {
     };
 
     private void getData() {
-        for (int i=0; i< taskNames.length; i++) {
-            TasksModel model = new TasksModel(taskNames[i], taskAmount[i], taskIncome[i], taskImages[i], taskLockState[i]);
-            database.TaskDao().insert(model);
-            new Handler().postDelayed(()->{},200);
-        }
+
+        TasksModel model1 = new TasksModel("Captcha", 50, 1, R.drawable.captcha, false);
+        database.TaskDao().insert(model1);
+        TasksModel model2 = new TasksModel("Amazon", 100, 3, R.drawable.amazon, true);
+        database.TaskDao().insert(model2);
+        TasksModel model3 = new TasksModel("Translate Text", 150, 5, R.drawable.translate_logo, true);
+        database.TaskDao().insert(model3);
+        TasksModel model4 = new TasksModel("Dummy Task 1", 200, 10, R.drawable.sra_logo, true);
+        database.TaskDao().insert(model4);
+        new Handler().postDelayed(()->{},200);
         list.clear();
         list.addAll(database.TaskDao().getAll());
         if (adapter != null)

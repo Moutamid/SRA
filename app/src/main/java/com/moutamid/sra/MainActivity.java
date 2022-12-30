@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.nav_profile:
                 binding.toolbarTittle.setText("Profile");
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new ProfileFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new ProfileFragment(binding.toolbarTittle, binding.bottomNavigation)).commit();
                 return true;
 
         }

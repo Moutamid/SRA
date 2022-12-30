@@ -8,15 +8,19 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.moutamid.sra.AboutUsActivity;
 import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.InviteFriendsActivity;
 import com.moutamid.sra.R;
@@ -30,9 +34,16 @@ public class ProfileFragment extends Fragment {
 
     FragmentProfileBinding binding;
     Context context;
+    TextView toolbarTittle;
+    BottomNavigationView bottomNavigation;
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    public ProfileFragment(TextView toolbarTittle, BottomNavigationView bottomNavigation) {
+        this.toolbarTittle = toolbarTittle;
+        this.bottomNavigation = bottomNavigation;
     }
 
     @Override
@@ -83,7 +94,12 @@ public class ProfileFragment extends Fragment {
         });
 
         binding.history.setOnClickListener(v -> {
-            startActivity(new Intent(context, WithdrawActivity.class));
+            toolbarTittle.setText("History");
+            bottomNavigation.setSelectedItemId(R.id.nav_history);
+        });
+
+        binding.about.setOnClickListener(v -> {
+            startActivity(new Intent(context, AboutUsActivity.class));
         });
 
         return view;

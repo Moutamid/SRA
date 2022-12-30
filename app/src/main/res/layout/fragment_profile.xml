@@ -212,6 +212,21 @@
                     android:background="@color/border_color"
                     android:layout_below="@id/idLay" />
 
+                <Button
+                    android:id="@+id/about"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/about"
+                    android:drawableTint="@color/ic_icon_logo_background"
+                    android:gravity="start|center_vertical"
+                    android:text="About Us"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:textAllCaps="false"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
