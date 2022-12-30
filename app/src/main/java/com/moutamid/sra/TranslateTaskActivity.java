@@ -48,7 +48,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
 
         binding.btnNext.setOnClickListener(v -> {
             if (!binding.translate.getText().toString().isEmpty()) {
-                if (binding.translate.getText().toString().equalsIgnoreCase(list.get(i).getTranslated())) {
+                if (binding.translate.getText().toString().contains(list.get(i).getTranslated())) {
                     ++i;
                     if (i < list.size()) {
                         binding.counter.setText("Total Completed : " + i + "/" + list.size());
@@ -94,6 +94,51 @@ public class TranslateTaskActivity extends AppCompatActivity {
 
         TranslateModel model5 = new TranslateModel(getResources().getString(R.string.translate_text_5_O), getResources().getString(R.string.translate_text_5_T));
         list.add(model5);
+
+        TranslateModel model6 = new TranslateModel(getResources().getString(R.string.translate_text_6_O), getResources().getString(R.string.translate_text_6_T));
+        list.add(model6);
+
+        TranslateModel model7 = new TranslateModel(getResources().getString(R.string.translate_text_7_O), getResources().getString(R.string.translate_text_7_T));
+        list.add(model7);
+
+        TranslateModel model8 = new TranslateModel(getResources().getString(R.string.translate_text_8_O), getResources().getString(R.string.translate_text_8_T));
+        list.add(model8);
+
+        TranslateModel model9 = new TranslateModel(getResources().getString(R.string.translate_text_9_O), getResources().getString(R.string.translate_text_9_T));
+        list.add(model9);
+
+        TranslateModel model10 = new TranslateModel(getResources().getString(R.string.translate_text_10_O), getResources().getString(R.string.translate_text_10_T));
+        list.add(model10);
+
+        TranslateModel model11 = new TranslateModel(getResources().getString(R.string.translate_text_11_O), getResources().getString(R.string.translate_text_11_T));
+        list.add(model11);
+
+        TranslateModel model12 = new TranslateModel(getResources().getString(R.string.translate_text_12_O), getResources().getString(R.string.translate_text_12_T));
+        list.add(model12);
+
+        TranslateModel model13 = new TranslateModel(getResources().getString(R.string.translate_text_13_O), getResources().getString(R.string.translate_text_13_T));
+        list.add(model13);
+
+        TranslateModel model14 = new TranslateModel(getResources().getString(R.string.translate_text_14_O), getResources().getString(R.string.translate_text_14_T));
+        list.add(model14);
+
+        TranslateModel model15 = new TranslateModel(getResources().getString(R.string.translate_text_15_O), getResources().getString(R.string.translate_text_15_T));
+        list.add(model15);
+
+        TranslateModel model16 = new TranslateModel(getResources().getString(R.string.translate_text_16_O), getResources().getString(R.string.translate_text_16_T));
+        list.add(model16);
+
+        TranslateModel model17 = new TranslateModel(getResources().getString(R.string.translate_text_17_O), getResources().getString(R.string.translate_text_17_T));
+        list.add(model17);
+
+        TranslateModel model18 = new TranslateModel(getResources().getString(R.string.translate_text_18_O), getResources().getString(R.string.translate_text_18_T));
+        list.add(model18);
+
+        TranslateModel model19 = new TranslateModel(getResources().getString(R.string.translate_text_19_O), getResources().getString(R.string.translate_text_19_T));
+        list.add(model19);
+
+        TranslateModel model20 = new TranslateModel(getResources().getString(R.string.translate_text_20_O), getResources().getString(R.string.translate_text_20_T));
+        list.add(model20);
 
         Collections.shuffle(list);
     }
