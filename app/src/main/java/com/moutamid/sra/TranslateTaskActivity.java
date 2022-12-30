@@ -76,7 +76,6 @@ public class TranslateTaskActivity extends AppCompatActivity {
                 binding.translate.setError("*Required");
             }
         });
-
     }
 
     private void getData() {
