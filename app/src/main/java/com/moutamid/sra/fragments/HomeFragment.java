@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sra.AboutUsActivity;
+import com.moutamid.sra.AmazonTaskActivity;
 import com.moutamid.sra.CaptchaTaskActivity;
 import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.InviteFriendsActivity;
@@ -132,6 +133,10 @@ public class HomeFragment extends Fragment {
                     startActivity(i);
                 } else if (task.getName().equalsIgnoreCase("Translate Text")) {
                     Intent i = new Intent(context, TranslateTaskActivity.class);
+                    i.putExtra("assets", assets);
+                    startActivity(i);
+                } else if (task.getName().equalsIgnoreCase("Amazon")) {
+                    Intent i = new Intent(context, AmazonTaskActivity.class);
                     i.putExtra("assets", assets);
                     startActivity(i);
                 } else {
