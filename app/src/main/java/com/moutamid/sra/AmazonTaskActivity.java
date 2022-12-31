@@ -1,5 +1,6 @@
 package com.moutamid.sra;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -20,8 +21,12 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sra.databinding.ActivityAmazonTaskBinding;
 import com.moutamid.sra.models.OrdersModel;
+import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
 
 import java.text.SimpleDateFormat;
@@ -57,6 +62,20 @@ public class AmazonTaskActivity extends AppCompatActivity {
         ordersList = new ArrayList<>();
 
         getData();
+
+        Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        UserModel model = snapshot.getValue(UserModel.class);
+                        binding.username.setText(model.getUsername());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
         binding.totalAssetsCount.setText("$"+assets);
         binding.grabbed.setText(i+" / 10");
