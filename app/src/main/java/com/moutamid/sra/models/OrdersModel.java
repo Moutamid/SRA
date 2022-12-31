@@ -6,20 +6,9 @@ public class OrdersModel {
     double price, total;
     int image;
     String orderTime;
-    int commission;
+    double commission;
 
     public OrdersModel() {
-    }
-
-    public OrdersModel(String ID, String name, double price, int quantity, double total, int image, String orderTime, int commission) {
-        this.ID = ID;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.total = total;
-        this.image = image;
-        this.orderTime = orderTime;
-        this.commission = commission;
     }
 
     public String getID() {
@@ -78,11 +67,11 @@ public class OrdersModel {
         this.orderTime = orderTime;
     }
 
-    public int getCommission() {
+    public double getCommission() {
         return commission;
     }
 
-    public void setCommission(int commission) {
+    public void setCommission(double commission) {
         this.commission = commission;
     }
 }

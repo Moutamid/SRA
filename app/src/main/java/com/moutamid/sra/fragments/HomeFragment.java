@@ -130,14 +130,17 @@ public class HomeFragment extends Fragment {
                 if (task.getName().equalsIgnoreCase("captcha")) {
                     Intent i = new Intent(context, CaptchaTaskActivity.class);
                     i.putExtra("assets", assets);
+                    i.putExtra("income", task.getIncome());
                     startActivity(i);
                 } else if (task.getName().equalsIgnoreCase("Translate Text")) {
                     Intent i = new Intent(context, TranslateTaskActivity.class);
                     i.putExtra("assets", assets);
+                    i.putExtra("income", task.getIncome());
                     startActivity(i);
                 } else if (task.getName().equalsIgnoreCase("Amazon")) {
                     Intent i = new Intent(context, AmazonTaskActivity.class);
                     i.putExtra("assets", assets);
+                    i.putExtra("income", task.getIncome());
                     startActivity(i);
                 } else {
                     Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
@@ -160,8 +163,24 @@ public class HomeFragment extends Fragment {
         database.TaskDao().insert(model2);
         TasksModel model3 = new TasksModel("Translate Text", 150, 5, R.drawable.translate_logo, true);
         database.TaskDao().insert(model3);
-        TasksModel model4 = new TasksModel("Dummy Task 1", 200, 10, R.drawable.sra_logo, true);
+        TasksModel model4 = new TasksModel("Captcha", 200, 10, R.drawable.sra_logo, true);
         database.TaskDao().insert(model4);
+        TasksModel model5 = new TasksModel("Amazon", 300, 13, R.drawable.amazon, true);
+        database.TaskDao().insert(model5);
+        TasksModel model6 = new TasksModel("Translate Text", 400, 15, R.drawable.translate_logo, true);
+        database.TaskDao().insert(model6);
+        TasksModel model7 = new TasksModel("Captcha", 500, 20, R.drawable.sra_logo, true);
+        database.TaskDao().insert(model7);
+        TasksModel model8 = new TasksModel("Amazon", 600, 23, R.drawable.amazon, true);
+        database.TaskDao().insert(model8);
+        TasksModel model9 = new TasksModel("Translate Text", 700, 25, R.drawable.translate_logo, true);
+        database.TaskDao().insert(model9);
+        TasksModel model10 = new TasksModel("Captcha", 800, 30, R.drawable.sra_logo, true);
+        database.TaskDao().insert(model10);
+        TasksModel model11 = new TasksModel("Amazon", 900, 33, R.drawable.amazon, true);
+        database.TaskDao().insert(model11);
+        TasksModel model12 = new TasksModel("Translate Text", 1000, 40, R.drawable.translate_logo, true);
+        database.TaskDao().insert(model12);
         new Handler().postDelayed(()->{},200);
         list.clear();
         list.addAll(database.TaskDao().getAll());

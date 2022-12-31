@@ -18,7 +18,7 @@ import java.util.Map;
 public class TranslateTaskActivity extends AppCompatActivity {
     ActivityTranslateTaskBinding binding;
     int i = 0;
-    int assets;
+    int assets, income;
     ProgressDialog progressDialog;
     ArrayList<TranslateModel> list;
     @Override
@@ -32,6 +32,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
 
         assets = getIntent().getIntExtra("assets", 0);
+        income = getIntent().getIntExtra("income", 0);
 
         list = new ArrayList<>();
 
@@ -57,7 +58,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
                     } else {
                         progressDialog.show();
                         Map<String, Object> map = new HashMap<>();
-                        map.put("assets", assets + 5);
+                        map.put("assets", (assets + income));
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(map).addOnSuccessListener(unused -> {
                                     progressDialog.dismiss();

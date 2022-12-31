@@ -22,15 +22,20 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.card.MaterialCardView;
 import com.moutamid.sra.databinding.ActivityAmazonTaskBinding;
 import com.moutamid.sra.models.OrdersModel;
+import com.moutamid.sra.utils.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
 public class AmazonTaskActivity extends AppCompatActivity {
     ActivityAmazonTaskBinding binding;
-    int i = 0, assets;
+    int i = 0, assets, income;
     double total;
     ProgressDialog progressDialog;
     String ID;
@@ -47,10 +52,14 @@ public class AmazonTaskActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
 
         assets = getIntent().getIntExtra("assets", 0);
+        income = getIntent().getIntExtra("income", 0);
 
         ordersList = new ArrayList<>();
 
         getData();
+
+        binding.totalAssetsCount.setText("$"+assets);
+        binding.grabbed.setText(i+" / 10");
 
         binding.back.setOnClickListener(v -> {
             onBackPressed();
@@ -58,30 +67,32 @@ public class AmazonTaskActivity extends AppCompatActivity {
         });
 
         binding.btnGrab.setOnClickListener(v -> {
-            binding.grabbingText.setVisibility(View.VISIBLE);
-            YoYo.with(Techniques.SlideInDown)
-                    .duration(1000)
-                    .repeat(20)
-                    .delay(100)
-                    .playOn(findViewById(R.id.q1));
+            if (i<10){
+                binding.grabbingText.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.SlideInDown)
+                        .duration(1000)
+                        .repeat(20)
+                        .delay(100)
+                        .playOn(findViewById(R.id.q1));
 
-            YoYo.with(Techniques.SlideInDown)
-                    .duration(1000)
-                    .repeat(20)
-                    .delay(200)
-                    .playOn(findViewById(R.id.q2));
+                YoYo.with(Techniques.SlideInDown)
+                        .duration(1000)
+                        .repeat(20)
+                        .delay(200)
+                        .playOn(findViewById(R.id.q2));
 
-            YoYo.with(Techniques.SlideInDown)
-                    .duration(1000)
-                    .repeat(20)
-                    .delay(400)
-                    .onEnd(animator -> {
-                        binding.grabbingText.setVisibility(View.GONE);
-                        Collections.shuffle(ordersList);
-                        random = new Random().nextInt(ordersList.size());
-                        showProductDialog(random);
-                    })
-                    .playOn(findViewById(R.id.q3));
+                YoYo.with(Techniques.SlideInDown)
+                        .duration(1000)
+                        .repeat(20)
+                        .delay(400)
+                        .onEnd(animator -> {
+                            binding.grabbingText.setVisibility(View.GONE);
+                            Collections.shuffle(ordersList);
+                            random = new Random().nextInt(ordersList.size());
+                            showProductDialog(random);
+                        })
+                        .playOn(findViewById(R.id.q3));
+            }
         });
     }
 
@@ -104,14 +115,37 @@ public class AmazonTaskActivity extends AppCompatActivity {
         MaterialCardView submit = dialog.findViewById(R.id.btn_submit);
         MaterialCardView close = dialog.findViewById(R.id.btn_close);
 
+        SimpleDateFormat format =new SimpleDateFormat("yyyy/MM/dd, hh:mm:ss");
+        Date date = new Date();
+
         productImage.setImageResource(model.getImage());
         name.setText(model.getName());
         price.setText("$"+model.getPrice());
         quantity.setText("x"+model.getQuantity());
         id.setText(model.getID());
-        time.setText(model.getOrderTime());
-        total.setText("$"+model.getTotal());
+        time.setText(format.format(date));
+        total.setText("$"+String.format("%.2f", model.getTotal()));
         commission.setText("$"+model.getCommission());
+
+        submit.setOnClickListener(v -> {
+            ++i;
+            dialog.dismiss();
+            binding.grabbed.setText(i+" / 10");
+            if(i==10){
+                progressDialog.show();
+                Map<String, Object> map = new HashMap<>();
+                map.put("assets", (assets + income));
+                Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                        .updateChildren(map).addOnSuccessListener(unused -> {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                            finish();
+                        }).addOnFailureListener(e -> {
+                            progressDialog.dismiss();
+                        });
+            }
+        });
 
         close.setOnClickListener(v -> {
             dialog.dismiss();
@@ -133,7 +167,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model1.setPrice(12.14);
         model1.setOrderTime("22/12/2022 11:23:22");
         model1.setImage(R.drawable.p1);
-        model1.setCommission(3);
+        model1.setCommission(0.3);
         total = model1.getQuantity() * model1.getPrice();
         model1.setTotal(total);
         ordersList.add(model1);
@@ -146,7 +180,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model2.setPrice(26.84);
         model2.setOrderTime("22/12/2022 11:23:22");
         model2.setImage(R.drawable.p2);
-        model2.setCommission(3);
+        model2.setCommission(0.3);
         total = model2.getQuantity() * model2.getPrice();
         model2.setTotal(total);
         ordersList.add(model2);
@@ -159,7 +193,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model3.setPrice(19.23);
         model3.setOrderTime("22/12/2022 11:23:22");
         model3.setImage(R.drawable.p3);
-        model3.setCommission(3);
+        model3.setCommission(0.3);
         total = model3.getQuantity() * model3.getPrice();
         model3.setTotal(total);
         ordersList.add(model3);
@@ -172,7 +206,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model4.setPrice(8.17);
         model4.setOrderTime("22/12/2022 11:23:22");
         model4.setImage(R.drawable.p4);
-        model4.setCommission(3);
+        model4.setCommission(0.3);
         total = model4.getQuantity() * model4.getPrice();
         model4.setTotal(total);
         ordersList.add(model4);
@@ -185,7 +219,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model5.setPrice(19.41);
         model5.setOrderTime("22/12/2022 11:23:22");
         model5.setImage(R.drawable.p5);
-        model5.setCommission(3);
+        model5.setCommission(0.3);
         total = model5.getQuantity() * model5.getPrice();
         model5.setTotal(total);
         ordersList.add(model5);
@@ -198,7 +232,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model6.setPrice(12.11);
         model6.setOrderTime("22/12/2022 11:23:22");
         model6.setImage(R.drawable.p6);
-        model6.setCommission(3);
+        model6.setCommission(0.3);
         total = model6.getQuantity() * model6.getPrice();
         model6.setTotal(total);
         ordersList.add(model6);
@@ -211,7 +245,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model7.setPrice(14.21);
         model7.setOrderTime("22/12/2022 11:23:22");
         model7.setImage(R.drawable.p7);
-        model7.setCommission(3);
+        model7.setCommission(0.3);
         total = model7.getQuantity() * model7.getPrice();
         model7.setTotal(total);
         ordersList.add(model7);
@@ -224,7 +258,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model8.setPrice(11.87);
         model8.setOrderTime("22/12/2022 11:23:22");
         model8.setImage(R.drawable.p8);
-        model8.setCommission(3);
+        model8.setCommission(0.3);
         total = model8.getQuantity() * model8.getPrice();
         model8.setTotal(total);
         ordersList.add(model8);
@@ -237,7 +271,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model9.setPrice(16.29);
         model9.setOrderTime("22/12/2022 11:23:22");
         model9.setImage(R.drawable.p9);
-        model9.setCommission(3);
+        model9.setCommission(0.3);
         total = model9.getQuantity() * model9.getPrice();
         model9.setTotal(total);
         ordersList.add(model9);
@@ -250,7 +284,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model10.setPrice(16.33);
         model10.setOrderTime("22/12/2022 11:23:22");
         model10.setImage(R.drawable.p10);
-        model10.setCommission(3);
+        model10.setCommission(0.3);
         total = model10.getQuantity() * model10.getPrice();
         model10.setTotal(total);
         ordersList.add(model10);
@@ -263,7 +297,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model11.setPrice(252.98);
         model11.setOrderTime("22/12/2022 11:23:22");
         model11.setImage(R.drawable.p11);
-        model11.setCommission(3);
+        model11.setCommission(0.3);
         total = model11.getQuantity() * model11.getPrice();
         model11.setTotal(total);
         ordersList.add(model11);
@@ -276,7 +310,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model12.setPrice(68.21);
         model12.setOrderTime("22/12/2022 11:23:22");
         model12.setImage(R.drawable.p12);
-        model12.setCommission(3);
+        model12.setCommission(0.3);
         total = model12.getQuantity() * model12.getPrice();
         model12.setTotal(total);
         ordersList.add(model12);
@@ -289,7 +323,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model13.setPrice(66.24);
         model13.setOrderTime("22/12/2022 11:23:22");
         model13.setImage(R.drawable.p13);
-        model13.setCommission(3);
+        model13.setCommission(0.3);
         total = model13.getQuantity() * model13.getPrice();
         model13.setTotal(total);
         ordersList.add(model13);
@@ -302,7 +336,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model14.setPrice(150.77);
         model14.setOrderTime("22/12/2022 11:23:22");
         model14.setImage(R.drawable.p14);
-        model14.setCommission(3);
+        model14.setCommission(0.3);
         total = model14.getQuantity() * model14.getPrice();
         model14.setTotal(total);
         ordersList.add(model14);
@@ -315,7 +349,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model15.setPrice(25.14);
         model15.setOrderTime("22/12/2022 11:23:22");
         model15.setImage(R.drawable.p15);
-        model15.setCommission(3);
+        model15.setCommission(0.3);
         total = model15.getQuantity() * model15.getPrice();
         model15.setTotal(total);
         ordersList.add(model15);
@@ -328,7 +362,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model16.setPrice(89.47);
         model16.setOrderTime("22/12/2022 11:23:22");
         model16.setImage(R.drawable.p16);
-        model16.setCommission(3);
+        model16.setCommission(0.3);
         total = model16.getQuantity() * model16.getPrice();
         model16.setTotal(total);
         ordersList.add(model16);
@@ -341,7 +375,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model17.setPrice(68.76);
         model17.setOrderTime("22/12/2022 11:23:22");
         model17.setImage(R.drawable.p17);
-        model17.setCommission(3);
+        model17.setCommission(0.3);
         total = model17.getQuantity() * model17.getPrice();
         model17.setTotal(total);
         ordersList.add(model17);
@@ -354,7 +388,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model18.setPrice(27.88);
         model18.setOrderTime("22/12/2022 11:23:22");
         model18.setImage(R.drawable.p18);
-        model18.setCommission(3);
+        model18.setCommission(0.3);
         total = model18.getQuantity() * model18.getPrice();
         model18.setTotal(total);
         ordersList.add(model18);
@@ -367,7 +401,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model19.setPrice(64.80);
         model19.setOrderTime("22/12/2022 11:23:22");
         model19.setImage(R.drawable.p19);
-        model19.setCommission(3);
+        model19.setCommission(0.3);
         total = model19.getQuantity() * model19.getPrice();
         model19.setTotal(total);
         ordersList.add(model19);
@@ -380,7 +414,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model20.setPrice(55.48);
         model20.setOrderTime("22/12/2022 11:23:22");
         model20.setImage(R.drawable.p20);
-        model20.setCommission(3);
+        model20.setCommission(0.3);
         total = model20.getQuantity() * model20.getPrice();
         model20.setTotal(total);
         ordersList.add(model20);

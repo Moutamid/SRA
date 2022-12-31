@@ -22,7 +22,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
     ActivityCaptchaTaskBinding binding;
     ArrayList<CaptchaModel> list;
     int i = 0;
-    int assets;
+    int assets, income;
     ProgressDialog progressDialog;
 
     @Override
@@ -36,6 +36,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
 
         assets = getIntent().getIntExtra("assets", 0);
+        income = getIntent().getIntExtra("income", 0);
 
         list = new ArrayList<>();
 
@@ -61,7 +62,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                     } else {
                         progressDialog.show();
                         Map<String, Object> map = new HashMap<>();
-                        map.put("assets", assets + 1);
+                        map.put("assets", (assets + income));
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();
