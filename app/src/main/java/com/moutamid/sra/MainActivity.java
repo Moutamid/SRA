@@ -69,7 +69,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Constants.databaseReference().child("users").child(ID)
                 .get().addOnSuccessListener(dataSnapshot -> {
                     UserModel model = dataSnapshot.getValue(UserModel.class);
-                    int assets = model.getAssets();
+                    int assets = 0;
+                    try {
+                        assets = model.getAssets();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                     update.put("assets", assets + 25);
                     Constants.databaseReference().child("users").child(ID)
                             .updateChildren(update).addOnSuccessListener(unused -> {
