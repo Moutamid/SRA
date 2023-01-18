@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -69,6 +70,8 @@ public class HomeFragment extends Fragment {
         list = new ArrayList<>();
 
         database = TaskDB.getInstance(context);
+        float d = Stash.getFloat("todayEarning", 0.0F);
+        binding.todayEarning.setText("$"+d);
 
         try {
             list = database.TaskDao().getAll();

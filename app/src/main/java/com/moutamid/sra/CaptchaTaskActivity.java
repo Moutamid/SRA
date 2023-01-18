@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
 import com.moutamid.sra.databinding.ActivityCaptchaTaskBinding;
 import com.moutamid.sra.models.CaptchaModel;
 import com.moutamid.sra.utils.Constants;
@@ -26,6 +27,8 @@ public class CaptchaTaskActivity extends AppCompatActivity {
     double income;
     ProgressDialog progressDialog;
 
+    float d;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         list = new ArrayList<>();
 
         addCaptcha();
+
+        d = Stash.getFloat("todayEarning", 0.0F);
 
         binding.back.setOnClickListener(v -> {
             onBackPressed();
@@ -62,8 +67,10 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                         binding.captcha.setText("");
                     } else {
                         progressDialog.show();
+                        d = (float) (d + income);
                         Map<String, Object> map = new HashMap<>();
                         map.put("assets", (assets + income));
+                        Stash.put("todayEarning", d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();
@@ -119,22 +126,22 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         CaptchaModel model11 = new CaptchaModel("PBHMV" , R.drawable.i11);
         list.add(model11);
 
-        CaptchaModel model12 = new CaptchaModel("D6DA" , R.drawable.i12);
+        CaptchaModel model12 = new CaptchaModel("H3WR4" , R.drawable.i12);
         list.add(model12);
 
-        CaptchaModel model13 = new CaptchaModel("NTC5" , R.drawable.i13);
+        CaptchaModel model13 = new CaptchaModel("NESWB" , R.drawable.i13);
         list.add(model13);
 
-        CaptchaModel model14 = new CaptchaModel("XY48W" , R.drawable.i14);
+        CaptchaModel model14 = new CaptchaModel("SVYC" , R.drawable.i14);
         list.add(model14);
 
-        CaptchaModel model15 = new CaptchaModel("H5MAY" , R.drawable.i15);
+        CaptchaModel model15 = new CaptchaModel("N9UPS6" , R.drawable.i15);
         list.add(model15);
 
         CaptchaModel model16 = new CaptchaModel("E536" , R.drawable.i16);
         list.add(model16);
 
-        CaptchaModel model17 = new CaptchaModel("DJXK54" , R.drawable.i17);
+        CaptchaModel model17 = new CaptchaModel("DJXK5R" , R.drawable.i17);
         list.add(model17);
 
         CaptchaModel model18 = new CaptchaModel("UH63WE" , R.drawable.i18);
@@ -224,7 +231,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         CaptchaModel model46 = new CaptchaModel("PKR4KU" , R.drawable.i46);
         list.add(model46);
 
-        CaptchaModel model47 = new CaptchaModel("935N4" , R.drawable.i47);
+        CaptchaModel model47 = new CaptchaModel("935JN4" , R.drawable.i47);
         list.add(model47);
 
         CaptchaModel model48 = new CaptchaModel("UP36JP" , R.drawable.i48);

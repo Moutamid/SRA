@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
 import com.moutamid.sra.databinding.ActivityTranslateTaskBinding;
 import com.moutamid.sra.models.TranslateModel;
 import com.moutamid.sra.utils.Constants;
@@ -18,7 +19,9 @@ import java.util.Map;
 public class TranslateTaskActivity extends AppCompatActivity {
     ActivityTranslateTaskBinding binding;
     int i = 0;
-    int assets, income;
+    int assets;
+    float d;
+    double income;
     ProgressDialog progressDialog;
     ArrayList<TranslateModel> list;
     @Override
@@ -32,11 +35,13 @@ public class TranslateTaskActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
 
         assets = getIntent().getIntExtra("assets", 0);
-        income = getIntent().getIntExtra("income", 0);
+        income = getIntent().getDoubleExtra("income", 0.0);
 
         list = new ArrayList<>();
 
         getData();
+
+        d = Stash.getFloat("todayEarning", 0.0F);
 
         binding.counter.setText("Total Completed : " + i + "/"+ list.size());
 
@@ -57,8 +62,10 @@ public class TranslateTaskActivity extends AppCompatActivity {
                         binding.translate.setText("");
                     } else {
                         progressDialog.show();
+                        d = (float) (d + income);
                         Map<String, Object> map = new HashMap<>();
                         map.put("assets", (assets + income));
+                        Stash.put("todayEarning", d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(map).addOnSuccessListener(unused -> {
                                     progressDialog.dismiss();
