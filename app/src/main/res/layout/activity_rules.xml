@@ -70,6 +70,7 @@
            </LinearLayout>
 
            <TextView
+               android:id="@+id/rules"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:padding="12dp"
