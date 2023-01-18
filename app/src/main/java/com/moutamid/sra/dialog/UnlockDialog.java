@@ -74,7 +74,7 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
                 if (assets >= tasksModel.getAmount()) {
                     progressDialog.show();
                     Map<String, Object> map = new HashMap<>();
-                    map.put("assets", assets- tasksModel.getAmount());
+                    map.put("deposit", assets - tasksModel.getAmount());
                     tasksModel.setLock(false);
 
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())

@@ -44,6 +44,8 @@ public class DepositActivity extends AppCompatActivity {
             finish();
         });
 
+        binding.hashKey.setText("TXLnyK6T7sDoagC293kKmaYYoGuvnUJxrV");
+
         binding.hashKey.setOnClickListener(v -> {
             String str = binding.hashKey.getText().toString();
             ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Copied Text", str));

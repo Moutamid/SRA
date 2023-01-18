@@ -22,7 +22,8 @@ public class CaptchaTaskActivity extends AppCompatActivity {
     ActivityCaptchaTaskBinding binding;
     ArrayList<CaptchaModel> list;
     int i = 0;
-    int assets, income;
+    int assets;
+    double income;
     ProgressDialog progressDialog;
 
     @Override
@@ -36,7 +37,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
 
         assets = getIntent().getIntExtra("assets", 0);
-        income = getIntent().getIntExtra("income", 0);
+        income = getIntent().getDoubleExtra("income", 0.0);
 
         list = new ArrayList<>();
 

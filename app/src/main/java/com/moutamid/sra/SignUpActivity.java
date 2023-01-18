@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
                             binding.whatsapp.getEditText().getText().toString(),
                             String.valueOf(referralCode),
                             binding.invitationCode.getEditText().getText().toString(),
-                            5, false
+                            5, 0.0, 0.0, 0.0, false
                     );
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .setValue(userModel).addOnSuccessListener(unused -> {

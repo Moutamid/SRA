@@ -20,7 +20,7 @@ public interface TaskDAO {
     List<TasksModel> getAll();
 
     @Query("UPDATE TaskTable SET name = :name, amount = :amount, income= :income, image= :image, isLock= :isLock where id = :id")
-    void update(int id, String name, int amount, int income, int image, boolean isLock);
+    void update(int id, String name, int amount, double income, int image, boolean isLock);
 
     @Delete
     void Delete(TasksModel taskModel);
