@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sra.AboutUsActivity;
 import com.moutamid.sra.DepositActivity;
 import com.moutamid.sra.InviteFriendsActivity;
+import com.moutamid.sra.MyTeamActivity;
 import com.moutamid.sra.R;
 import com.moutamid.sra.SplashScreenActivity;
 import com.moutamid.sra.WithdrawActivity;
@@ -90,6 +91,13 @@ public class ProfileFragment extends Fragment {
         binding.withdraw.setOnClickListener(v -> {
             Intent i = new Intent(context, WithdrawActivity.class);
             i.putExtra("amount", binding.totalAssetsCount.getText().toString());
+            startActivity(i);
+        });
+
+        binding.team.setOnClickListener(v -> {
+            Intent i = new Intent(context, MyTeamActivity.class);
+            i.putExtra("name", "My Team");
+            i.putExtra("key", Constants.auth().getCurrentUser().getUid());
             startActivity(i);
         });
 

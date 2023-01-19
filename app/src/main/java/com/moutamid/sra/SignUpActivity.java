@@ -13,7 +13,9 @@ import com.moutamid.sra.databinding.ActivitySignUpBinding;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -59,8 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                     );
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .setValue(userModel).addOnSuccessListener(unused -> {
-                                Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(this, LoginActivity.class));
+                                addUser();
                             }).addOnFailureListener(e -> {
                                 progressDialog.dismiss();
                                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -71,6 +72,20 @@ public class SignUpActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void addUser() {
+        Map<String, String> map = new HashMap<>();
+        map.put("key", Constants.auth().getCurrentUser().getUid());
+        Constants.databaseReference().child("team").child(binding.invitationCode.getEditText().getText().toString())
+                .push().setValue(map).addOnSuccessListener(unused -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, LoginActivity.class));
+                }).addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private boolean validate() {
