@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.moutamid.sra.databinding.ActivityMainBinding;
 import com.moutamid.sra.fragments.HistoryFragment;
 import com.moutamid.sra.fragments.HomeFragment;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Constants.databaseReference().child("users").child(ID)
                 .get().addOnSuccessListener(dataSnapshot -> {
                     UserModel model = dataSnapshot.getValue(UserModel.class);
-                    int assets = 0;
+                    double assets = 0;
                     try {
                         assets = model.getAssets();
                     } catch (Exception e){

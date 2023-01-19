@@ -20,7 +20,7 @@ public class TasksModel implements Serializable {
     int amount = 0;
 
     @ColumnInfo(name = "income")
-    double income = 0.0;
+    float income = 0.0F;
 
     @ColumnInfo(name = "image")
     int image = 0;
@@ -28,7 +28,7 @@ public class TasksModel implements Serializable {
     @ColumnInfo(name = "isLock")
     boolean isLock = true;
 
-    public TasksModel(String name, int amount, double income, int image, boolean isLock) {
+    public TasksModel(String name, int amount, float income, int image, boolean isLock) {
         this.name = name;
         this.amount = amount;
         this.income = income;
@@ -60,11 +60,11 @@ public class TasksModel implements Serializable {
         this.amount = amount;
     }
 
-    public double getIncome() {
+    public float getIncome() {
         return income;
     }
 
-    public void setIncome(double income) {
+    public void setIncome(float income) {
         this.income = income;
     }
 

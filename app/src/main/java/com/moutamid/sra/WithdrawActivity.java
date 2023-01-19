@@ -19,7 +19,7 @@ import java.util.UUID;
 public class WithdrawActivity extends AppCompatActivity {
     ActivityWithdrawBinding binding;
     String amount;
-    int assets;
+    double assets;
     boolean isValid = false;
 
     @Override
@@ -52,7 +52,7 @@ public class WithdrawActivity extends AppCompatActivity {
                 int i = 0;
                 if (!s.toString().isEmpty()){
                     i = Integer.parseInt(s.toString());
-                    int r = assets - i;
+                    double r = assets - i;
                     if (r >= 0) {
                         binding.assets.setText("$" + r);
                         isValid = true;

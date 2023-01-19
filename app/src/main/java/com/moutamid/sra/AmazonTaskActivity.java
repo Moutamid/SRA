@@ -42,14 +42,14 @@ import java.util.UUID;
 
 public class AmazonTaskActivity extends AppCompatActivity {
     ActivityAmazonTaskBinding binding;
-    int i = 0, assets;
-    double total, income;
+    int i = 0;
+    double total;
     ProgressDialog progressDialog;
     String ID;
     ArrayList<OrdersModel> ordersList;
     int random;
 
-    float d;
+    float d, assets, income;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,8 @@ public class AmazonTaskActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please wait...");
 
-        assets = getIntent().getIntExtra("assets", 0);
-        income = getIntent().getDoubleExtra("income", 0.0);
+        assets = getIntent().getFloatExtra("assets", 0.0F);
+        income = getIntent().getFloatExtra("income", 0.0F);
 
         ordersList = new ArrayList<>();
 
@@ -158,7 +158,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
             binding.grabbed.setText(i+" / 10");
             if(i==10){
                 progressDialog.show();
-                d = (float) (d + income);
+                d = d + income;
                 Map<String, Object> map = new HashMap<>();
                 map.put("assets", (assets + income));
                 Stash.put("todayEarning", d);
