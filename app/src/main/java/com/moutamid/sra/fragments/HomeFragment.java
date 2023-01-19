@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     List<TasksModel> list;
     TaskDB database;
     UnlockDialog dialog;
-    int assets;
+    float assets;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -89,7 +89,15 @@ public class HomeFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         UserModel model = snapshot.getValue(UserModel.class);
                         binding.username.setText(model.getUsername());
-                        binding.totalAssetsCount.setText("$" + model.getAssets());
+                        //binding.totalAssetsCount.setText("$" + model.getAssets());
+                        binding.promotionBonus.setText("$"+model.getPromotionValue());
+                        String s = String.format("%.2f", model.getDeposit());
+                        binding.depositAmount.setText("$"+s);
+                        double dep = model.getDeposit();
+                        double por = model.getPromotionValue();
+                        float tot = (float) (d + dep + por);
+                        String t = String.format("%.2f", tot);
+                        binding.totalAssetsCount.setText("$"+t);
                     }
 
                     @Override
@@ -129,7 +137,7 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(TasksModel task) {
             if (!task.isLock()) {
-                assets = Integer.parseInt(binding.totalAssetsCount.getText().toString().substring(1));
+                assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
                 if (task.getName().equalsIgnoreCase("captcha")) {
                     Intent i = new Intent(context, CaptchaTaskActivity.class);
                     i.putExtra("assets", assets);
@@ -149,7 +157,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                assets = Integer.parseInt(binding.totalAssetsCount.getText().toString().substring(1));
+                assets = Float.parseFloat(binding.depositAmount.getText().toString().substring(1));
                 dialog = new UnlockDialog((Activity) context, task, list, adapter, assets);
                 dialog.show();
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

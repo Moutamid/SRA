@@ -73,7 +73,7 @@ public class DepositActivity extends AppCompatActivity {
                                         uid,
                                         uri.toString(),
                                         Constants.auth().getCurrentUser().getUid(),
-                                        Integer.parseInt(binding.amount.getEditText().getText().toString()), d.getTime(),
+                                        Float.parseFloat(binding.amount.getEditText().getText().toString()), d.getTime(),
                                         "PEN", "DEP"
                                 );
                                 Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())

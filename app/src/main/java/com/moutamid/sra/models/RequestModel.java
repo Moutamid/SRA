@@ -2,14 +2,14 @@ package com.moutamid.sra.models;
 
 public class RequestModel {
     String ID, image, userID, hashKey;
-    int amount;
+    float amount;
     long timestamps;
     String status, type;
 
     public RequestModel() {
     }
 
-    public RequestModel(String ID, String image, String userID, String hashKey, int amount, long timestamps, String status, String type) {
+    public RequestModel(String ID, String image, String userID, String hashKey, float amount, long timestamps, String status, String type) {
         this.ID = ID;
         this.image = image;
         this.userID = userID;
@@ -20,7 +20,7 @@ public class RequestModel {
         this.type = type;
     }
 
-    public RequestModel(String ID, String userID, String hashKey, String status, String type, int amount, long timestamps) {
+    public RequestModel(String ID, String userID, String hashKey, String status, String type, float amount, long timestamps) {
         this.ID = ID;
         this.userID = userID;
         this.hashKey = hashKey;
@@ -30,7 +30,7 @@ public class RequestModel {
         this.type = type;
     }
 
-    public RequestModel(String ID, String image, String userID, int amount, long timestamps, String status, String type) {
+    public RequestModel(String ID, String image, String userID, float amount, long timestamps, String status, String type) {
         this.ID = ID;
         this.image = image;
         this.userID = userID;
@@ -88,11 +88,11 @@ public class RequestModel {
         this.hashKey = hashKey;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

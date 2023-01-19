@@ -10,13 +10,12 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String ID, String username, String email, String password, String whatsapp, String referralCode, String invitationCode, int assets, double earning, double deposit, double promotionValue, boolean receivePrice) {
+    public UserModel(String ID, String username, String email, String password, String whatsapp, String invitationCode, int assets, double earning, double deposit, double promotionValue, boolean receivePrice) {
         this.ID = ID;
         this.username = username;
         this.email = email;
         this.password = password;
         this.whatsapp = whatsapp;
-        this.referralCode = referralCode;
         this.invitationCode = invitationCode;
         this.assets = assets;
         this.earning = earning;
@@ -25,16 +24,28 @@ public class UserModel {
         this.receivePrice = receivePrice;
     }
 
-    public UserModel(String ID, String username, String email, String password, String whatsapp, String referralCode, String invitationCode, int assets, boolean receivePrice) {
-        this.ID = ID;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.whatsapp = whatsapp;
-        this.referralCode = referralCode;
-        this.invitationCode = invitationCode;
-        this.assets = assets;
-        this.receivePrice = receivePrice;
+    public double getEarning() {
+        return earning;
+    }
+
+    public void setEarning(double earning) {
+        this.earning = earning;
+    }
+
+    public double getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(double deposit) {
+        this.deposit = deposit;
+    }
+
+    public double getPromotionValue() {
+        return promotionValue;
+    }
+
+    public void setPromotionValue(double promotionValue) {
+        this.promotionValue = promotionValue;
     }
 
     public boolean isReceivePrice() {

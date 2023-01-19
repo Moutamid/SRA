@@ -171,6 +171,27 @@
                     android:layout_below="@id/idLay" />
 
                 <Button
+                    android:id="@+id/team"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/invite"
+                    android:drawableTint="@color/promotion_bg"
+                    android:gravity="start|center_vertical"
+                    android:text="My Team"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:textAllCaps="false"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_color"
+                    android:layout_below="@id/idLay" />
+
+                <Button
                     android:id="@+id/history"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"

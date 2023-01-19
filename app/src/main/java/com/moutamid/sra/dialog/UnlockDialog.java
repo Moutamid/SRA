@@ -33,10 +33,10 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
     List<TasksModel> list;
     TasksAdapter adapter;
     TaskDB database;
-    int assets;
+    float assets;
     ProgressDialog progressDialog;
 
-    public UnlockDialog(Activity a, TasksModel tasksModel, List<TasksModel> list, TasksAdapter adapter, int assets) {
+    public UnlockDialog(Activity a, TasksModel tasksModel, List<TasksModel> list, TasksAdapter adapter, float assets) {
         super(a);
         this.c = a;
         this.tasksModel = tasksModel;

@@ -2,7 +2,7 @@ package com.moutamid.sra.models;
 
 public class DepositRequestModel {
     String ID, image, userID;
-    int amount;
+    float amount;
     long timestamps;
     String status, type;
 
@@ -15,7 +15,7 @@ public class DepositRequestModel {
         this.userID = userID;
     }
 
-    public DepositRequestModel(String ID, String image, String userID, int amount, long timestamps, String status, String type) {
+    public DepositRequestModel(String ID, String image, String userID, float amount, long timestamps, String status, String type) {
         this.ID = ID;
         this.image = image;
         this.userID = userID;
@@ -65,11 +65,11 @@ public class DepositRequestModel {
         this.image = image;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

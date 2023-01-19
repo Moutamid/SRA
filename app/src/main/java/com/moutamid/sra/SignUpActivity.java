@@ -28,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Creating You Account...");
+        progressDialog.setMessage("Creating Your Account...");
 
         binding.login.setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
@@ -47,16 +47,15 @@ public class SignUpActivity extends AppCompatActivity {
                        (binding.username.getEditText().getText().toString().toLowerCase(Locale.ROOT).trim() + "@sra.com"),
                         binding.password.getEditText().getText().toString()
                 ).addOnSuccessListener(authResult -> {
-                    long referralCode = (long) Math.floor(Math.random() * (999999999999L-100000+1)+100000);
+                    // long referralCode = (long) Math.floor(Math.random() * (999999999999L-100000+1)+100000);
                     UserModel userModel = new UserModel(
-                            Constants.auth().getCurrentUser().getUid(),
-                            binding.username.getEditText().getText().toString().toLowerCase(Locale.ROOT),
+                            ""+Constants.auth().getCurrentUser().getUid(),
+                            ""+binding.username.getEditText().getText().toString().toLowerCase(Locale.ROOT),
                             binding.username.getEditText().getText().toString().toLowerCase(Locale.ROOT).trim() + "@sra.com",
-                            binding.password.getEditText().getText().toString(),
-                            binding.whatsapp.getEditText().getText().toString(),
-                            String.valueOf(referralCode),
-                            binding.invitationCode.getEditText().getText().toString(),
-                            5, 0.0, 0.0, 0.0, false
+                            ""+binding.password.getEditText().getText().toString(),
+                            ""+binding.whatsapp.getEditText().getText().toString(),
+                            ""+binding.invitationCode.getEditText().getText().toString(),
+                            0, 0.0, 0.0, 0.0, false
                     );
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .setValue(userModel).addOnSuccessListener(unused -> {
