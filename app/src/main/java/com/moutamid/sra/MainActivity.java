@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                     if (!model.isReceivePrice()){
                         Map<String, Object> update = new HashMap<>();
-                        update.put("assets", 25);
+                        update.put("assets", 5);
                         update.put("receivePrice", true);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(update)
