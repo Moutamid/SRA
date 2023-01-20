@@ -68,25 +68,31 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void updateReferal(String ID) {
         Map<String, Object> update = new HashMap<>();
-        Constants.databaseReference().child("users").child(ID)
-                .get().addOnSuccessListener(dataSnapshot -> {
-                    UserModel model = dataSnapshot.getValue(UserModel.class);
-                    double assets = 0;
-                    try {
-                        assets = model.getAssets();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    update.put("assets", assets + 25);
-                    Constants.databaseReference().child("users").child(ID)
-                            .updateChildren(update).addOnSuccessListener(unused -> {
-                                progressDialog.dismiss();
-                            }).addOnFailureListener(e -> {
+        try {
+            Constants.databaseReference().child("users").child(ID)
+                    .get().addOnSuccessListener(dataSnapshot -> {
+                        if (dataSnapshot.exists()) {
+                            UserModel model = dataSnapshot.getValue(UserModel.class);
+                            double assets = 0;
+                            try {
+                                assets = model.getAssets();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            update.put("assets", assets + 5);
+                            Constants.databaseReference().child("users").child(ID)
+                                    .updateChildren(update).addOnSuccessListener(unused -> {
+                                        progressDialog.dismiss();
+                                    }).addOnFailureListener(e -> {
 
-                            });
-                }).addOnFailureListener(e -> {
-                    progressDialog.dismiss();
-                });
+                                    });
+                        }
+                    }).addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                    });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
