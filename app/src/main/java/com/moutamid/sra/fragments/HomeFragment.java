@@ -73,25 +73,11 @@ public class HomeFragment extends Fragment {
         list = new ArrayList<>();
 
         database = TaskDB.getInstance(context);
-
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String mDate = format.format(date);
-        String sDate = Stash.getString("todayDate", "");
-
-        if (sDate.isEmpty()){
-            Stash.put("todayDate", mDate);
-            d = Stash.getFloat("todayEarning", 0.0F);
-            binding.todayEarning.setText("$"+d);
-        } else {
-            if (sDate.equals(mDate)){
-                Stash.put("todayDate", mDate);
-                Stash.clear("todayEarning");
-            } else {
-                d = Stash.getFloat("todayEarning", 0.0F);
-                binding.todayEarning.setText("$"+d);
-            }
-        }
+        d = Stash.getFloat(mDate, 0.0F);
+        binding.todayEarning.setText("$"+d);
 
         try {
             list = database.TaskDao().getAll();
@@ -115,7 +101,7 @@ public class HomeFragment extends Fragment {
                         binding.depositAmount.setText("$"+s);
                         double dep = model.getDeposit();
                         double por = model.getAssets();
-                        float tot = (float) (d + por);
+                        float tot = (float) (dep + por);
                         String t = String.format("%.2f", tot);
                         binding.totalAssetsCount.setText("$"+t);
                     }

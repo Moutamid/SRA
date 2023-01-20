@@ -48,7 +48,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
     String ID;
     ArrayList<OrdersModel> ordersList;
     int random;
-
+    String mDate;
     float d, assets, income;
 
     @Override
@@ -67,7 +67,10 @@ public class AmazonTaskActivity extends AppCompatActivity {
 
         getData();
 
-        d = Stash.getFloat("todayEarning", 0.0F);
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        mDate = format.format(date);
+        d = Stash.getFloat(mDate, 0.0F);
 
         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -161,7 +164,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
                 d = d + income;
                 Map<String, Object> map = new HashMap<>();
                 map.put("assets", (assets + income));
-                Stash.put("todayEarning", d);
+                Stash.put(mDate, d);
                 Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                         .updateChildren(map).addOnSuccessListener(unused -> {
                             progressDialog.dismiss();

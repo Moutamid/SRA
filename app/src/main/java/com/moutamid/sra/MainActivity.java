@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fxn.stash.Stash;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.moutamid.sra.databinding.ActivityMainBinding;
 import com.moutamid.sra.fragments.HistoryFragment;
@@ -17,6 +18,8 @@ import com.moutamid.sra.fragments.ProfileFragment;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,5 +121,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String mDate = format.format(date);
+        float d = Stash.getFloat(mDate, 0.0F);
+        if (d == 0.0F) {
+            Stash.put(mDate, 0.0F);
+        }
     }
+
 }

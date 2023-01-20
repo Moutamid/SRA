@@ -11,8 +11,10 @@ import com.moutamid.sra.databinding.ActivityTranslateTaskBinding;
 import com.moutamid.sra.models.TranslateModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
     int assets;
     float d;
     double income;
+    String mDate;
     ProgressDialog progressDialog;
     ArrayList<TranslateModel> list;
     @Override
@@ -41,7 +44,10 @@ public class TranslateTaskActivity extends AppCompatActivity {
 
         getData();
 
-        d = Stash.getFloat("todayEarning", 0.0F);
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        mDate = format.format(date);
+        d = Stash.getFloat(mDate, 0.0F);
 
         binding.counter.setText("Total Completed : " + i + "/"+ list.size());
 
@@ -65,7 +71,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
                         d = (float) (d + income);
                         Map<String, Object> map = new HashMap<>();
                         map.put("assets", (assets + income));
-                        Stash.put("todayEarning", d);
+                        Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(map).addOnSuccessListener(unused -> {
                                     progressDialog.dismiss();

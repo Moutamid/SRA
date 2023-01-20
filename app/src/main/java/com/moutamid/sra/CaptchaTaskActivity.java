@@ -13,9 +13,11 @@ import com.moutamid.sra.databinding.ActivityCaptchaTaskBinding;
 import com.moutamid.sra.models.CaptchaModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
     int assets;
     double income;
     ProgressDialog progressDialog;
-
+    String mDate;
     float d;
 
     @Override
@@ -46,7 +48,10 @@ public class CaptchaTaskActivity extends AppCompatActivity {
 
         addCaptcha();
 
-        d = Stash.getFloat("todayEarning", 0.0F);
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        mDate = format.format(date);
+        d = Stash.getFloat(mDate, 0.0F);
 
         binding.back.setOnClickListener(v -> {
             onBackPressed();
@@ -70,7 +75,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                         d = (float) (d + income);
                         Map<String, Object> map = new HashMap<>();
                         map.put("assets", (assets + income));
-                        Stash.put("todayEarning", d);
+                        Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();
