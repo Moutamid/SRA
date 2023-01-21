@@ -14,12 +14,14 @@ import com.moutamid.sra.models.WithdrawRequestModel;
 import com.moutamid.sra.utils.Constants;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class WithdrawActivity extends AppCompatActivity {
     ActivityWithdrawBinding binding;
     String amount;
     double assets;
+    String as;
     boolean isValid = false;
 
     @Override
@@ -36,7 +38,8 @@ public class WithdrawActivity extends AppCompatActivity {
                 .get().addOnSuccessListener(dataSnapshot -> {
                     progressDialog.dismiss();
                     assets = dataSnapshot.getValue(UserModel.class).getAssets();
-                    binding.assets.setText("$"+assets);
+                    as = String.format("%.2f", assets);
+                    binding.assets.setText("$"+as);
                 }).addOnFailureListener(e -> {
 
                 });
@@ -49,19 +52,20 @@ public class WithdrawActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int i = 0;
+                float i = 0.0f;
                 if (!s.toString().isEmpty()){
-                    i = Integer.parseInt(s.toString());
+                    i = Float.parseFloat(s.toString());
                     double r = assets - i;
+                    String ss = String.format(Locale.getDefault(),"%.2f", r);
                     if (r >= 0) {
-                        binding.assets.setText("$" + r);
+                        binding.assets.setText("$" + ss);
                         isValid = true;
                     } else {
                         binding.assets.setText("Enter Valid Amount");
                         isValid = false;
                     }
                 } else {
-                    binding.assets.setText("$" + assets);
+                    binding.assets.setText("$" + as);
                     isValid = false;
                 }
             }

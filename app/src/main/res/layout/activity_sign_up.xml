@@ -42,6 +42,7 @@
             android:layout_toLeftOf="@id/support"
             android:backgroundTint="@color/transparent"
             android:minHeight="48dp"
+            android:visibility="gone"
             android:src="@drawable/ic_language"
             app:tint="@color/primary_color"
             tools:ignore="SpeakableTextPresentCheck" />

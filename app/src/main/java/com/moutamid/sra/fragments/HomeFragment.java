@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         context = view.getContext();
@@ -74,10 +74,10 @@ public class HomeFragment extends Fragment {
 
         database = TaskDB.getInstance(context);
         Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         String mDate = format.format(date);
         d = Stash.getFloat(mDate, 0.0F);
-        String te = String.format("%.2f", d);
+        String te = String.format(Locale.getDefault(), "%.2f", d);
 
         binding.todayEarning.setText("$"+te);
 
@@ -98,14 +98,14 @@ public class HomeFragment extends Fragment {
                         UserModel model = snapshot.getValue(UserModel.class);
                         binding.username.setText(model.getUsername());
                         //binding.totalAssetsCount.setText("$" + model.getAssets());
-                        String a = String.format("%.2f", model.getAssets());
+                        String a = String.format(Locale.getDefault(),"%.2f", model.getAssets());
                         binding.promotionBonus.setText("$"+a);
-                        String s = String.format("%.2f", model.getDeposit());
+                        String s = String.format(Locale.getDefault(), "%.2f", model.getDeposit());
                         binding.depositAmount.setText("$"+s);
                         double dep = model.getDeposit();
                         double por = model.getAssets();
                         float tot = (float) (dep + por);
-                        String t = String.format("%.2f", tot);
+                        String t = String.format(Locale.getDefault(),"%.2f", tot);
                         binding.totalAssetsCount.setText("$"+t);
                     }
 

@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -73,7 +74,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         getData();
 
         Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         mDate = format.format(date);
         d = Stash.getFloat(mDate, 0.0F);
 
@@ -148,7 +149,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         MaterialCardView submit = dialog.findViewById(R.id.btn_submit);
         MaterialCardView close = dialog.findViewById(R.id.btn_close);
 
-        SimpleDateFormat format =new SimpleDateFormat("yyyy/MM/dd, hh:mm:ss");
+        SimpleDateFormat format =new SimpleDateFormat("yyyy/MM/dd, hh:mm:ss", Locale.getDefault());
         Date date = new Date();
 
         productImage.setImageResource(model.getImage());
@@ -157,8 +158,8 @@ public class AmazonTaskActivity extends AppCompatActivity {
         quantity.setText("x"+model.getQuantity());
         id.setText(model.getID());
         time.setText(format.format(date));
-        total.setText("$"+String.format("%.2f", model.getTotal()));
-        commission.setText("$"+String.format("%.2f", model.getCommission()));
+        total.setText("$"+String.format(Locale.getDefault(), "%.2f", model.getTotal()));
+        commission.setText("$"+String.format(Locale.getDefault(), "%.2f", model.getCommission()));
 
         submit.setOnClickListener(v -> {
             ++i;

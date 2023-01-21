@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class CaptchaTaskActivity extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         addCaptcha();
 
         Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         mDate = format.format(date);
         d = Stash.getFloat(mDate, 0.0F);
 
