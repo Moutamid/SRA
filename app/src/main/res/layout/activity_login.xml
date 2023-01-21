@@ -28,6 +28,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
+            app:tint="@color/primary_color"
             android:layout_marginBottom="5dp"
             android:backgroundTint="@color/transparent"
             android:minHeight="48dp"
@@ -62,6 +63,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_centerInParent="true"
+                    app:tint="@color/primary_color"
                     android:src="@drawable/logo_bg" />
 
                 <ImageView
