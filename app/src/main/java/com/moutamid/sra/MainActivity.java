@@ -109,9 +109,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
 
             case R.id.nav_support:
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(String.format("https://api.whatsapp.com/send?phone=%s&text=%s",
-                                "+14375380650", ""))));
+                Uri uri = new Uri.Builder().scheme("http").authority("telegram.me").appendEncodedPath("+13366851283").build();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri).setPackage("org.telegram.messenger"));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 return true;
 
             case R.id.nav_profile:
