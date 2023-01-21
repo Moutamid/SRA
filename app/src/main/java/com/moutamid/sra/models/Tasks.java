@@ -1,30 +1,30 @@
 package com.moutamid.sra.models;
 
-
 import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import java.io.Serializable;
+public class Tasks {
 
-@Entity(tableName = "TaskTable")
-public class TasksModel implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    int id =0;
-    @ColumnInfo(name = "name")
-    String name = "";
-    @ColumnInfo(name = "amount")
-    int amount = 0;
-    @ColumnInfo(name = "income")
-    float income = 0.0F;
-    @ColumnInfo(name = "image")
-    int image = 0;
-    @ColumnInfo(name = "isLock")
-    boolean isLock = true;
-    @ColumnInfo(name = "total")
-    int total = 0;
+    String id;
+    String name;
+    int amount;
+    float income;
+    int image;
+    boolean isLock;
+    int total;
 
-    public TasksModel(int id, String name, int amount, float income, int image, boolean isLock, int total) {
+    public Tasks() {
+    }
+
+    public Tasks(String name, int amount, float income, int image, boolean isLock, int total) {
+        this.name = name;
+        this.amount = amount;
+        this.income = income;
+        this.image = image;
+        this.isLock = isLock;
+        this.total = total;
+    }
+
+    public Tasks(String id, String name, int amount, float income, int image, boolean isLock, int total) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -34,28 +34,11 @@ public class TasksModel implements Serializable {
         this.total = total;
     }
 
-    public TasksModel(String name, int amount, float income, int image, boolean isLock, int total) {
-        this.name = name;
-        this.amount = amount;
-        this.income = income;
-        this.image = image;
-        this.isLock = isLock;
-        this.total = total;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -97,5 +80,13 @@ public class TasksModel implements Serializable {
 
     public void setLock(boolean lock) {
         isLock = lock;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }
