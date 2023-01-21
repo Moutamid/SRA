@@ -28,12 +28,24 @@ public class TasksModel implements Serializable {
     @ColumnInfo(name = "isLock")
     boolean isLock = true;
 
-    public TasksModel(String name, int amount, float income, int image, boolean isLock) {
+    @ColumnInfo(name = "total")
+    int total = 0;
+
+    public TasksModel(String name, int amount, float income, int image, boolean isLock, int total) {
         this.name = name;
         this.amount = amount;
         this.income = income;
         this.image = image;
         this.isLock = isLock;
+        this.total = total;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public int getId() {

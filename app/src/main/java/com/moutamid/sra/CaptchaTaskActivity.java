@@ -24,11 +24,11 @@ import java.util.Map;
 public class CaptchaTaskActivity extends AppCompatActivity {
     ActivityCaptchaTaskBinding binding;
     ArrayList<CaptchaModel> list;
-    int i = 0;
-    int assets;
-    double income;
+    int i = 0, totalListSize;
+    float income, assets;
     ProgressDialog progressDialog;
     String mDate;
+    float percentage;
     float d;
 
     @Override
@@ -41,8 +41,11 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please wait...");
 
-        assets = getIntent().getIntExtra("assets", 0);
-        income = getIntent().getDoubleExtra("income", 0.0);
+        assets = getIntent().getFloatExtra("assets", 0.0F);
+        income = getIntent().getFloatExtra("income", 0.0F);
+        totalListSize = getIntent().getIntExtra("total", 0);
+
+        percentage = (income/100)*assets;
 
         list = new ArrayList<>();
 
@@ -58,7 +61,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
             finish();
         });
 
-        binding.counter.setText("Total Captcha Completed : " + i + "/"+ list.size());
+        binding.counter.setText("Total Captcha Completed : " + i + "/"+ totalListSize);
         binding.image.setImageResource(list.get(i).getImage());
 
         binding.btnNext.setOnClickListener(v -> {
@@ -66,15 +69,15 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                 !binding.captcha.getText().toString().isEmpty()) {
                 if (binding.captcha.getText().toString().equals(list.get(i).getAnswer())) {
                     ++i;
-                    if (i < list.size()) {
-                        binding.counter.setText("Total Captcha Completed : " + i + "/" + list.size());
+                    if (i < totalListSize) {
+                        binding.counter.setText("Total Captcha Completed : " + i + "/" + totalListSize);
                         binding.image.setImageResource(list.get(i).getImage());
                         binding.captcha.setText("");
                     } else {
                         progressDialog.show();
-                        d = (float) (d + income);
+                        d = (float) (d + percentage);
                         Map<String, Object> map = new HashMap<>();
-                        map.put("assets", (assets + income));
+                        map.put("assets", (assets + percentage));
                         Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {

@@ -49,7 +49,9 @@ public class AmazonTaskActivity extends AppCompatActivity {
     ArrayList<OrdersModel> ordersList;
     int random;
     String mDate;
-    float d, assets, income;
+    float absAsset, absPerc;
+    float d, assets, income, percentage;
+    int totalListSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,9 @@ public class AmazonTaskActivity extends AppCompatActivity {
 
         assets = getIntent().getFloatExtra("assets", 0.0F);
         income = getIntent().getFloatExtra("income", 0.0F);
+        totalListSize = getIntent().getIntExtra("total", 0);
+
+        percentage = (income/100)*assets;
 
         ordersList = new ArrayList<>();
 
@@ -87,7 +92,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
                 });
 
         binding.totalAssetsCount.setText("$"+assets);
-        binding.grabbed.setText(i+" / 10");
+        binding.grabbed.setText(i+" / "+totalListSize);
 
         binding.back.setOnClickListener(v -> {
             onBackPressed();
@@ -95,7 +100,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         });
 
         binding.btnGrab.setOnClickListener(v -> {
-            if (i<10){
+            if (i<totalListSize){
                 binding.grabbingText.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.SlideInDown)
                         .duration(1000)
@@ -158,12 +163,12 @@ public class AmazonTaskActivity extends AppCompatActivity {
         submit.setOnClickListener(v -> {
             ++i;
             dialog.dismiss();
-            binding.grabbed.setText(i+" / 10");
-            if(i==10){
+            binding.grabbed.setText(i+" / " +totalListSize);
+            if(i==totalListSize){
                 progressDialog.show();
-                d = d + income;
+                d = d + percentage;
                 Map<String, Object> map = new HashMap<>();
-                map.put("assets", (assets + income));
+                map.put("assets", (assets + percentage));
                 Stash.put(mDate, d);
                 Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                         .updateChildren(map).addOnSuccessListener(unused -> {

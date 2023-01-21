@@ -77,7 +77,9 @@ public class HomeFragment extends Fragment {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String mDate = format.format(date);
         d = Stash.getFloat(mDate, 0.0F);
-        binding.todayEarning.setText("$"+d);
+        String te = String.format("%.2f", d);
+
+        binding.todayEarning.setText("$"+te);
 
         try {
             list = database.TaskDao().getAll();
@@ -96,7 +98,8 @@ public class HomeFragment extends Fragment {
                         UserModel model = snapshot.getValue(UserModel.class);
                         binding.username.setText(model.getUsername());
                         //binding.totalAssetsCount.setText("$" + model.getAssets());
-                        binding.promotionBonus.setText("$"+model.getAssets());
+                        String a = String.format("%.2f", model.getAssets());
+                        binding.promotionBonus.setText("$"+a);
                         String s = String.format("%.2f", model.getDeposit());
                         binding.depositAmount.setText("$"+s);
                         double dep = model.getDeposit();
@@ -143,21 +146,24 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(TasksModel task) {
             if (!task.isLock()) {
-                assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
+                assets = Float.parseFloat(binding.promotionBonus.getText().toString().substring(1));
                 if (task.getName().equalsIgnoreCase("captcha")) {
                     Intent i = new Intent(context, CaptchaTaskActivity.class);
                     i.putExtra("assets", assets);
                     i.putExtra("income", task.getIncome());
+                    i.putExtra("total", task.getTotal());
                     startActivity(i);
                 } else if (task.getName().equalsIgnoreCase("Translate Text")) {
                     Intent i = new Intent(context, TranslateTaskActivity.class);
                     i.putExtra("assets", assets);
                     i.putExtra("income", task.getIncome());
+                    i.putExtra("total", task.getTotal());
                     startActivity(i);
                 } else if (task.getName().equalsIgnoreCase("Amazon")) {
                     Intent i = new Intent(context, AmazonTaskActivity.class);
                     i.putExtra("assets", assets);
                     i.putExtra("income", task.getIncome());
+                    i.putExtra("total", task.getTotal());
                     startActivity(i);
                 } else {
                     Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
@@ -174,25 +180,25 @@ public class HomeFragment extends Fragment {
 
     private void getData() {
 
-        TasksModel model1 = new TasksModel("Captcha", 50, 1.25F, R.drawable.captcha, true);
+        TasksModel model1 = new TasksModel("Captcha", 50, 1.25F, R.drawable.captcha, true, 30);
         database.TaskDao().insert(model1);
-        TasksModel model2 = new TasksModel("Amazon", 100, 2.5F, R.drawable.amazon, true);
+        TasksModel model2 = new TasksModel("Amazon", 100, 2.5F, R.drawable.amazon, true, 10);
         database.TaskDao().insert(model2);
-        TasksModel model3 = new TasksModel("Translate Text", 300, 3.75F, R.drawable.translate_logo, true);
+        TasksModel model3 = new TasksModel("Translate Text", 300, 3.75F, R.drawable.translate_logo, true, 10);
         database.TaskDao().insert(model3);
-        TasksModel model4 = new TasksModel("Captcha", 500, 5F, R.drawable.captcha, true);
+        TasksModel model4 = new TasksModel("Captcha", 500, 5F, R.drawable.captcha, true, 40);
         database.TaskDao().insert(model4);
-        TasksModel model5 = new TasksModel("Amazon", 800, 6.25F, R.drawable.amazon, true);
+        TasksModel model5 = new TasksModel("Amazon", 800, 6.25F, R.drawable.amazon, true, 15);
         database.TaskDao().insert(model5);
-        TasksModel model6 = new TasksModel("Translate Text", 1500, 7.5F, R.drawable.translate_logo, true);
+        TasksModel model6 = new TasksModel("Translate Text", 1500, 7.5F, R.drawable.translate_logo, true, 15);
         database.TaskDao().insert(model6);
-        TasksModel model7 = new TasksModel("Captcha", 3000, 8.75F, R.drawable.captcha, true);
+        TasksModel model7 = new TasksModel("Captcha", 3000, 8.75F, R.drawable.captcha, true, 45);
         database.TaskDao().insert(model7);
-        TasksModel model8 = new TasksModel("Amazon", 5000, 10F, R.drawable.amazon, true);
+        TasksModel model8 = new TasksModel("Amazon", 5000, 10F, R.drawable.amazon, true, 20);
         database.TaskDao().insert(model8);
-        TasksModel model9 = new TasksModel("Translate Text", 7500, 11.25F, R.drawable.translate_logo, true);
+        TasksModel model9 = new TasksModel("Translate Text", 7500, 11.25F, R.drawable.translate_logo, true, 20);
         database.TaskDao().insert(model9);
-        TasksModel model10 = new TasksModel("Captcha", 10000, 12.5F, R.drawable.captcha, true);
+        TasksModel model10 = new TasksModel("Captcha", 10000, 12.5F, R.drawable.captcha, true, 50);
         database.TaskDao().insert(model10);
         new Handler().postDelayed(()->{},200);
         list.clear();

@@ -21,12 +21,12 @@ import java.util.Map;
 public class TranslateTaskActivity extends AppCompatActivity {
     ActivityTranslateTaskBinding binding;
     int i = 0;
-    int assets;
-    float d;
-    double income;
+    float d,percentage, assets;
+    float income;
     String mDate;
     ProgressDialog progressDialog;
     ArrayList<TranslateModel> list;
+    int totalListSize;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +37,11 @@ public class TranslateTaskActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please wait...");
 
-        assets = getIntent().getIntExtra("assets", 0);
-        income = getIntent().getDoubleExtra("income", 0.0);
+        assets = getIntent().getFloatExtra("assets", 0.0F);
+        income = getIntent().getFloatExtra("income", 0.0F);
+        totalListSize = getIntent().getIntExtra("total", 0);
+
+        percentage = (income/100)*assets;
 
         list = new ArrayList<>();
 
@@ -49,7 +52,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
         mDate = format.format(date);
         d = Stash.getFloat(mDate, 0.0F);
 
-        binding.counter.setText("Total Completed : " + i + "/"+ list.size());
+        binding.counter.setText("Total Completed : " + i + "/"+ totalListSize);
 
         binding.original.setText(list.get(i).getOriginal());
 
@@ -62,15 +65,15 @@ public class TranslateTaskActivity extends AppCompatActivity {
             if (!binding.translate.getText().toString().isEmpty()) {
                 if (binding.translate.getText().toString().contains(list.get(i).getTranslated())) {
                     ++i;
-                    if (i < list.size()) {
-                        binding.counter.setText("Total Completed : " + i + "/" + list.size());
+                    if (i < totalListSize) {
+                        binding.counter.setText("Total Completed : " + i + "/" + totalListSize);
                         binding.original.setText(list.get(i).getOriginal());
                         binding.translate.setText("");
                     } else {
                         progressDialog.show();
-                        d = (float) (d + income);
+                        d = (float) (d + percentage);
                         Map<String, Object> map = new HashMap<>();
-                        map.put("assets", (assets + income));
+                        map.put("assets", (assets + percentage));
                         Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(map).addOnSuccessListener(unused -> {
