@@ -24,16 +24,6 @@ public class TasksModel implements Serializable {
     @ColumnInfo(name = "total")
     int total = 0;
 
-    public TasksModel(int id, String name, int amount, float income, int image, boolean isLock, int total) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.income = income;
-        this.image = image;
-        this.isLock = isLock;
-        this.total = total;
-    }
-
     public TasksModel(String name, int amount, float income, int image, boolean isLock, int total) {
         this.name = name;
         this.amount = amount;
