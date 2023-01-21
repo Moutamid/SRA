@@ -25,6 +25,7 @@ import com.moutamid.sra.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryFragment extends Fragment {
 
@@ -61,7 +62,8 @@ public class HistoryFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         UserModel model = snapshot.getValue(UserModel.class);
-                        binding.totalAssetsCount.setText("$" + model.getAssets());
+                        String s = String.format(Locale.getDefault(), "%.2f", model.getAssets());
+                        binding.totalAssetsCount.setText("$" + s);
                     }
 
                     @Override
