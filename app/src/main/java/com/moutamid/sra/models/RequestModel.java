@@ -1,9 +1,7 @@
 package com.moutamid.sra.models;
 
-import androidx.room.ColumnInfo;
-
 public class RequestModel {
-    String ID, image, userID, hashKey;
+    String ID, imageLink, userID, hashKey;
     float amount;
     long timestamps;
     String status, type;
@@ -11,15 +9,16 @@ public class RequestModel {
     String name;
     float income;
     boolean isLock;
+    int image;
 
     public RequestModel() {
     }
 
 
 
-    public RequestModel(String ID, String image, String userID, String hashKey, float amount, long timestamps, String status, String type) {
+    public RequestModel(String ID, String imageLink, String userID, String hashKey, float amount, long timestamps, String status, String type) {
         this.ID = ID;
-        this.image = image;
+        this.imageLink = imageLink;
         this.userID = userID;
         this.hashKey = hashKey;
         this.amount = amount;
@@ -38,14 +37,22 @@ public class RequestModel {
         this.type = type;
     }
 
-    public RequestModel(String ID, String image, String userID, float amount, long timestamps, String status, String type) {
+    public RequestModel(String ID, String imageLink, String userID, float amount, long timestamps, String status, String type) {
         this.ID = ID;
-        this.image = image;
+        this.imageLink = imageLink;
         this.userID = userID;
         this.amount = amount;
         this.timestamps = timestamps;
         this.status = status;
         this.type = type;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public String getUid() {
@@ -104,12 +111,12 @@ public class RequestModel {
         this.ID = ID;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public String getUserID() {

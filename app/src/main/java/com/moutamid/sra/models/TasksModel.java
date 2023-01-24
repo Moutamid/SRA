@@ -23,7 +23,7 @@ public class TasksModel implements Serializable {
     @ColumnInfo(name = "income")
     float income = 0.0F;
     @ColumnInfo(name = "image")
-    int image = 0;
+    int image;
     @ColumnInfo(name = "isLock")
     boolean isLock = true;
     @ColumnInfo(name = "total")
@@ -93,6 +93,8 @@ public class TasksModel implements Serializable {
         this.status = status;
         this.type = type;
     }
+
+
 
     public String getStatus() {
         return status;
