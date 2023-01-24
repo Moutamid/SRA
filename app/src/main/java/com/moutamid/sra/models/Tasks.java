@@ -3,34 +3,72 @@ package com.moutamid.sra.models;
 import androidx.room.ColumnInfo;
 
 public class Tasks {
-    String id;
+    String id ="0";
+    String uid;
     String name;
     int amount;
     float income;
-    int image;
     boolean isLock;
     int total;
-
+    String userID;
+    long timestamps;
+    String status;
+    String type;
     public Tasks() {
     }
 
-    public Tasks(String name, int amount, float income, int image, boolean isLock, int total) {
+    public Tasks(String id, String uid, String name, int amount, float income, boolean isLock, int total, String userID, long timestamps, String status, String type) {
+        this.id = id;
+        this.uid = uid;
         this.name = name;
         this.amount = amount;
         this.income = income;
-        this.image = image;
         this.isLock = isLock;
         this.total = total;
+        this.userID = userID;
+        this.timestamps = timestamps;
+        this.status = status;
+        this.type = type;
     }
 
-    public Tasks(String id, String name, int amount, float income, int image, boolean isLock, int total) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.income = income;
-        this.image = image;
-        this.isLock = isLock;
-        this.total = total;
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public long getTimestamps() {
+        return timestamps;
+    }
+
+    public void setTimestamps(long timestamps) {
+        this.timestamps = timestamps;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getId() {
@@ -63,14 +101,6 @@ public class Tasks {
 
     public void setIncome(float income) {
         this.income = income;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 
     public boolean isLock() {
