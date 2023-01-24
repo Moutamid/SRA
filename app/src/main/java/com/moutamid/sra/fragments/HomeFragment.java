@@ -40,6 +40,7 @@ import com.moutamid.sra.models.TasksModel;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -141,27 +142,33 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(TasksModel task) {
             if (!task.isLock()) {
-                assets = Float.parseFloat(binding.promotionBonus.getText().toString().substring(1));
-                if (task.getName().equalsIgnoreCase("captcha")) {
-                    Intent i = new Intent(context, CaptchaTaskActivity.class);
-                    i.putExtra("assets", assets);
-                    i.putExtra("income", task.getIncome());
-                    i.putExtra("total", task.getTotal());
-                    startActivity(i);
-                } else if (task.getName().equalsIgnoreCase("Translate Text")) {
-                    Intent i = new Intent(context, TranslateTaskActivity.class);
-                    i.putExtra("assets", assets);
-                    i.putExtra("income", task.getIncome());
-                    i.putExtra("total", task.getTotal());
-                    startActivity(i);
-                } else if (task.getName().equalsIgnoreCase("Amazon")) {
-                    Intent i = new Intent(context, AmazonTaskActivity.class);
-                    i.putExtra("assets", assets);
-                    i.putExtra("income", task.getIncome());
-                    i.putExtra("total", task.getTotal());
-                    startActivity(i);
+                Date d = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm aa");
+                String a = format.format(d);
+                int cur = Integer.parseInt(a.substring(0, 2));
+                if (cur >= 9 || cur == 0) {
+                    assets = Float.parseFloat(binding.promotionBonus.getText().toString().substring(1));
+                    if (task.getName().equalsIgnoreCase("captcha")) {
+                        Intent i = new Intent(context, CaptchaTaskActivity.class);
+                        i.putExtra("assets", assets);
+                        i.putExtra("income", task.getIncome());
+                        i.putExtra("total", task.getTotal());
+                        startActivity(i);
+                    } else if (task.getName().equalsIgnoreCase("Translate Text")) {
+                        Intent i = new Intent(context, TranslateTaskActivity.class);
+                        i.putExtra("assets", assets);
+                        i.putExtra("income", task.getIncome());
+                        i.putExtra("total", task.getTotal());
+                        startActivity(i);
+                    } else if (task.getName().equalsIgnoreCase("Amazon")) {
+                        Intent i = new Intent(context, AmazonTaskActivity.class);
+                        i.putExtra("assets", assets);
+                        i.putExtra("income", task.getIncome());
+                        i.putExtra("total", task.getTotal());
+                        startActivity(i);
+                    }
                 } else {
-                    Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "You can only do your task between 9:00 Am to 12:00 AM", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 assets = Float.parseFloat(binding.depositAmount.getText().toString().substring(1));
