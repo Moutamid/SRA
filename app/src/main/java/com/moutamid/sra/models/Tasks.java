@@ -3,7 +3,6 @@ package com.moutamid.sra.models;
 import androidx.room.ColumnInfo;
 
 public class Tasks {
-
     String id;
     String name;
     int amount;

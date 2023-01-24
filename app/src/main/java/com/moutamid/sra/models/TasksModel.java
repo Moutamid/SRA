@@ -56,6 +56,21 @@ public class TasksModel implements Serializable {
     }
 
     @Ignore
+    public TasksModel(String id, String uid, String name, int amount, float income, boolean isLock, int total, String userID, long timestamps, String status, String type) {
+        this.id = id;
+        this.uid = uid;
+        this.name = name;
+        this.amount = amount;
+        this.income = income;
+        this.isLock = isLock;
+        this.total = total;
+        this.userID = userID;
+        this.timestamps = timestamps;
+        this.status = status;
+        this.type = type;
+    }
+
+    @Ignore
     public TasksModel(String uid, String name, int amount, float income, int image, boolean isLock, int total) {
         this.uid = uid;
         this.name = name;

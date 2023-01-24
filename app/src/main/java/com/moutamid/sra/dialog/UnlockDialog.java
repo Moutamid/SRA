@@ -80,7 +80,7 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
                     String uid = UUID.randomUUID().toString();
                     Date d = new Date();
 
-                    TasksModel task = new TasksModel(tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
+                    TasksModel task = new TasksModel(uid, tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
 
                     Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
                             .child(uid).setValue(task).addOnSuccessListener(unused -> {
