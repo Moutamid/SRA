@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,8 @@ import com.moutamid.sra.utils.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -79,17 +82,9 @@ public class HomeFragment extends Fragment {
         d = Stash.getFloat(mDate, 0.0F);
         String te = String.format(Locale.getDefault(), "%.2f", d);
 
-        binding.todayEarning.setText("$"+te);
+        binding.todayEarning.setText("$" + te);
 
-        try {
-            list = database.TaskDao().getAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (list.isEmpty()){
-            getData();
-        }
+        getData();
 
         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -98,15 +93,15 @@ public class HomeFragment extends Fragment {
                         UserModel model = snapshot.getValue(UserModel.class);
                         binding.username.setText(model.getUsername());
                         //binding.totalAssetsCount.setText("$" + model.getAssets());
-                        String a = String.format(Locale.getDefault(),"%.2f", model.getAssets());
-                        binding.promotionBonus.setText("$"+a);
+                        String a = String.format(Locale.getDefault(), "%.2f", model.getAssets());
+                        binding.promotionBonus.setText("$" + a);
                         String s = String.format(Locale.getDefault(), "%.2f", model.getDeposit());
-                        binding.depositAmount.setText("$"+s);
+                        binding.depositAmount.setText("$" + s);
                         double dep = model.getDeposit();
                         double por = model.getAssets();
                         float tot = (float) (dep + por);
-                        String t = String.format(Locale.getDefault(),"%.2f", tot);
-                        binding.totalAssetsCount.setText("$"+t);
+                        String t = String.format(Locale.getDefault(), "%.2f", tot);
+                        binding.totalAssetsCount.setText("$" + t);
                     }
 
                     @Override
@@ -180,30 +175,65 @@ public class HomeFragment extends Fragment {
 
     private void getData() {
 
-        TasksModel model1 = new TasksModel("Captcha", 50, 1.25F, R.drawable.captcha, true, 30);
+        Constants.databaseReference().child("userTasks").child(Constants.auth().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            list.clear();
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                TasksModel model = dataSnapshot.getValue(TasksModel.class);
+                                list.add(model);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    Collections.sort(list, Comparator.comparing(TasksModel::getIncome));
+                                }
+                            }
+                            if (adapter != null)
+                                adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        /*String uid = UUID.randomUUID().toString();
+        TasksModel model1 = new TasksModel(uid, "Captcha", 50, 1.25F, R.drawable.captcha, true, 30);
         database.TaskDao().insert(model1);
-        TasksModel model2 = new TasksModel("Amazon", 100, 2.5F, R.drawable.amazon, true, 10);
+        String uid2 = UUID.randomUUID().toString();
+        TasksModel model2 = new TasksModel(uid2, "Amazon", 100, 2.5F, R.drawable.amazon, true, 10);
         database.TaskDao().insert(model2);
-        TasksModel model3 = new TasksModel("Translate Text", 300, 3.75F, R.drawable.translate_logo, true, 10);
+        String uid3 = UUID.randomUUID().toString();
+        TasksModel model3 = new TasksModel(uid3, "Translate Text", 300, 3.75F, R.drawable.translate_logo, true, 10);
         database.TaskDao().insert(model3);
-        TasksModel model4 = new TasksModel("Captcha", 500, 5F, R.drawable.captcha, true, 40);
+        String uid4 = UUID.randomUUID().toString();
+        TasksModel model4 = new TasksModel(uid4, "Captcha", 500, 5F, R.drawable.captcha, true, 40);
         database.TaskDao().insert(model4);
-        TasksModel model5 = new TasksModel("Amazon", 800, 6.25F, R.drawable.amazon, true, 15);
+        String uid5 = UUID.randomUUID().toString();
+        TasksModel model5 = new TasksModel(uid5, "Amazon", 800, 6.25F, R.drawable.amazon, true, 15);
         database.TaskDao().insert(model5);
-        TasksModel model6 = new TasksModel("Translate Text", 1500, 7.5F, R.drawable.translate_logo, true, 15);
+        String uid6 = UUID.randomUUID().toString();
+        TasksModel model6 = new TasksModel(uid6, "Translate Text", 1500, 7.5F, R.drawable.translate_logo, true, 15);
         database.TaskDao().insert(model6);
-        TasksModel model7 = new TasksModel("Captcha", 3000, 8.75F, R.drawable.captcha, true, 45);
+        String uid7 = UUID.randomUUID().toString();
+        TasksModel model7 = new TasksModel(uid7, "Captcha", 3000, 8.75F, R.drawable.captcha, true, 45);
         database.TaskDao().insert(model7);
-        TasksModel model8 = new TasksModel("Amazon", 5000, 10F, R.drawable.amazon, true, 20);
+        String uid8 = UUID.randomUUID().toString();
+        TasksModel model8 = new TasksModel(uid8, "Amazon", 5000, 10F, R.drawable.amazon, true, 20);
         database.TaskDao().insert(model8);
-        TasksModel model9 = new TasksModel("Translate Text", 7500, 11.25F, R.drawable.translate_logo, true, 20);
+        String uid9 = UUID.randomUUID().toString();
+        TasksModel model9 = new TasksModel(uid9, "Translate Text", 7500, 11.25F, R.drawable.translate_logo, true, 20);
         database.TaskDao().insert(model9);
-        TasksModel model10 = new TasksModel("Captcha", 10000, 12.5F, R.drawable.captcha, true, 50);
+        String uid10 = UUID.randomUUID().toString();
+        TasksModel model10 = new TasksModel(uid10, "Captcha", 10000, 12.5F, R.drawable.captcha, true, 50);
         database.TaskDao().insert(model10);
-        new Handler().postDelayed(()->{},200);
+        new Handler().postDelayed(() -> {
+        }, 200);
         list.clear();
         list.addAll(database.TaskDao().getAll());
         if (adapter != null)
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();*/
     }
 }

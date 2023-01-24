@@ -38,7 +38,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         RequestModel model = list.get(holder.getAdapterPosition());
         if (model.getType().equals("DEP")){
             holder.name.setText("Deposit Request");
-        } else {
+        } else if (model.getType().equals("TASK")){
+            holder.name.setText("Task Open Request");
+        }  else {
             holder.name.setText("Withdraw Request");
         }
         if (model.getStatus().equals("PEN")){

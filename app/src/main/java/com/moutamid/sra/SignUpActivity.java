@@ -6,21 +6,28 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Patterns;
 import android.widget.Toast;
 
 import com.moutamid.sra.databinding.ActivitySignUpBinding;
+import com.moutamid.sra.models.TasksModel;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
     ActivitySignUpBinding binding;
     ProgressDialog progressDialog;
+    List<TasksModel> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,8 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Creating Your Account...");
+
+        list = new ArrayList<>();
 
         binding.login.setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
@@ -82,13 +91,59 @@ public class SignUpActivity extends AppCompatActivity {
         map.put("key", Constants.auth().getCurrentUser().getUid());
         Constants.databaseReference().child("team").child(binding.invitationCode.getEditText().getText().toString())
                 .push().setValue(map).addOnSuccessListener(unused -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, LoginActivity.class));
+                    addtask();
                 }).addOnFailureListener(e -> {
                     progressDialog.dismiss();
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void addtask() {
+        getData();
+        for (int i =0; i<list.size(); i++){
+            Constants.databaseReference().child("userTasks").child(Objects.requireNonNull(Constants.auth().getCurrentUser()).getUid()).child(list.get(i).getUid())
+                    .setValue(list.get(i)).addOnSuccessListener(unused -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, LoginActivity.class));
+                    }).addOnFailureListener(e -> {
+                        e.printStackTrace();
+                    });
+        }
+    }
+
+    private void getData() {
+        String uid = UUID.randomUUID().toString();
+        TasksModel model1 = new TasksModel(uid, "Captcha", 50, 1.25F, R.drawable.captcha, true, 30);
+        list.add(model1);
+        String uid2 = UUID.randomUUID().toString();
+        TasksModel model2 = new TasksModel(uid2,"Amazon", 100, 2.5F, R.drawable.amazon, true, 10);
+        list.add(model2);
+        String uid3 = UUID.randomUUID().toString();
+        TasksModel model3 = new TasksModel(uid3,"Translate Text", 300, 3.75F, R.drawable.translate_logo, true, 10);
+        list.add(model3);
+        String uid4 = UUID.randomUUID().toString();
+        TasksModel model4 = new TasksModel(uid4,"Captcha", 500, 5F, R.drawable.captcha, true, 40);
+        list.add(model4);
+        String uid5 = UUID.randomUUID().toString();
+        TasksModel model5 = new TasksModel(uid5,"Amazon", 800, 6.25F, R.drawable.amazon, true, 15);
+        list.add(model5);
+        String uid6 = UUID.randomUUID().toString();
+        TasksModel model6 = new TasksModel(uid6,"Translate Text", 1500, 7.5F, R.drawable.translate_logo, true, 15);
+        list.add(model6);
+        String uid7 = UUID.randomUUID().toString();
+        TasksModel model7 = new TasksModel(uid7, "Captcha", 3000, 8.75F, R.drawable.captcha, true, 45);
+        list.add(model7);
+        String uid8 = UUID.randomUUID().toString();
+        TasksModel model8 = new TasksModel(uid8,"Amazon", 5000, 10F, R.drawable.amazon, true, 20);
+        list.add(model8);
+        String uid9 = UUID.randomUUID().toString();
+        TasksModel model9 = new TasksModel(uid9,"Translate Text", 7500, 11.25F, R.drawable.translate_logo, true, 20);
+        list.add(model9);
+        String uid10 = UUID.randomUUID().toString();
+        TasksModel model10 = new TasksModel(uid10, "Captcha", 10000, 12.5F, R.drawable.captcha, true, 50);
+        list.add(model10);
+        new Handler().postDelayed(()->{},200);
     }
 
     private boolean validate() {

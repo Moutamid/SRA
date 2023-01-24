@@ -1,13 +1,21 @@
 package com.moutamid.sra.models;
 
+import androidx.room.ColumnInfo;
+
 public class RequestModel {
     String ID, image, userID, hashKey;
     float amount;
     long timestamps;
     String status, type;
+    String uid;
+    String name;
+    float income;
+    boolean isLock;
 
     public RequestModel() {
     }
+
+
 
     public RequestModel(String ID, String image, String userID, String hashKey, float amount, long timestamps, String status, String type) {
         this.ID = ID;
@@ -38,6 +46,38 @@ public class RequestModel {
         this.timestamps = timestamps;
         this.status = status;
         this.type = type;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getIncome() {
+        return income;
+    }
+
+    public void setIncome(float income) {
+        this.income = income;
+    }
+
+    public boolean isLock() {
+        return isLock;
+    }
+
+    public void setLock(boolean lock) {
+        isLock = lock;
     }
 
     public String getStatus() {

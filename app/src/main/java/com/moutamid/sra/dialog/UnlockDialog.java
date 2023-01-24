@@ -18,11 +18,14 @@ import com.moutamid.sra.R;
 import com.moutamid.sra.adapter.TasksAdapter;
 import com.moutamid.sra.database.TaskDB;
 import com.moutamid.sra.models.TasksModel;
+import com.moutamid.sra.models.WithdrawRequestModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class UnlockDialog extends Dialog implements View.OnClickListener {
@@ -46,7 +49,7 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
         database = TaskDB.getInstance(c);
         progressDialog = new ProgressDialog(a);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage("Sending Request...");
     }
 
 
@@ -73,7 +76,21 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
             case R.id.btnYes:
                 if (assets >= tasksModel.getAmount()) {
                     progressDialog.show();
-                    Map<String, Object> map = new HashMap<>();
+
+                    String uid = UUID.randomUUID().toString();
+                    Date d = new Date();
+
+                    TasksModel task = new TasksModel(tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
+
+                    Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
+                            .child(uid).setValue(task).addOnSuccessListener(unused -> {
+                                progressDialog.dismiss();
+                                Toast.makeText(c, "Request Sent", Toast.LENGTH_SHORT).show();
+                            }).addOnFailureListener(e -> {
+                                progressDialog.dismiss();
+                            });
+
+                    /*Map<String, Object> map = new HashMap<>();
                     map.put("deposit", assets - tasksModel.getAmount());
                     tasksModel.setLock(false);
 
@@ -86,7 +103,7 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
                                 progressDialog.dismiss();
                             }).addOnFailureListener(e -> {
                                 progressDialog.dismiss();
-                            });
+                            });*/
 
                 } else {
                     Toast.makeText(c.getApplicationContext(), "Not Enough Assets", Toast.LENGTH_SHORT).show();
