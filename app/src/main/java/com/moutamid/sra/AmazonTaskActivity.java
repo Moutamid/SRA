@@ -48,7 +48,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     String ID;
     ArrayList<OrdersModel> ordersList;
-    int random;
+    int random, amount;
     String mDate;
     float absAsset, absPerc;
     float d, assets, income, percentage;
@@ -66,8 +66,9 @@ public class AmazonTaskActivity extends AppCompatActivity {
         assets = getIntent().getFloatExtra("assets", 0.0F);
         income = getIntent().getFloatExtra("income", 0.0F);
         totalListSize = getIntent().getIntExtra("total", 0);
+        amount = getIntent().getIntExtra("amount", 0);
 
-        percentage = (income/100)*assets;
+        percentage = (income/100)*amount;
 
         ordersList = new ArrayList<>();
 

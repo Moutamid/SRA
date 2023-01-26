@@ -26,7 +26,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
     String mDate;
     ProgressDialog progressDialog;
     ArrayList<TranslateModel> list;
-    int totalListSize;
+    int totalListSize,amount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +40,9 @@ public class TranslateTaskActivity extends AppCompatActivity {
         assets = getIntent().getFloatExtra("assets", 0.0F);
         income = getIntent().getFloatExtra("income", 0.0F);
         totalListSize = getIntent().getIntExtra("total", 0);
+        amount = getIntent().getIntExtra("amount", 0);
 
-        percentage = (income/100)*assets;
+        percentage = (income/100)*amount;
 
         list = new ArrayList<>();
 

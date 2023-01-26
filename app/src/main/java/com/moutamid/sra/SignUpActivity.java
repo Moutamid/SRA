@@ -123,7 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
         TasksModel model3 = new TasksModel(uid3,"Translate Text", 300, 3.75F, R.drawable.translate_logo, true, 10);
         list.add(model3);
         String uid4 = UUID.randomUUID().toString();
-        TasksModel model4 = new TasksModel(uid4,"Captcha", 500, 5F, R.drawable.captcha, true, 40);
+        TasksModel model4 = new TasksModel(uid4,"Captcha", 500, 5.0F, R.drawable.captcha, true, 40);
         list.add(model4);
         String uid5 = UUID.randomUUID().toString();
         TasksModel model5 = new TasksModel(uid5,"Amazon", 800, 6.25F, R.drawable.amazon, true, 15);
@@ -135,7 +135,7 @@ public class SignUpActivity extends AppCompatActivity {
         TasksModel model7 = new TasksModel(uid7, "Captcha", 3000, 8.75F, R.drawable.captcha, true, 45);
         list.add(model7);
         String uid8 = UUID.randomUUID().toString();
-        TasksModel model8 = new TasksModel(uid8,"Amazon", 5000, 10F, R.drawable.amazon, true, 20);
+        TasksModel model8 = new TasksModel(uid8,"Amazon", 5000, 10.0F, R.drawable.amazon, true, 20);
         list.add(model8);
         String uid9 = UUID.randomUUID().toString();
         TasksModel model9 = new TasksModel(uid9,"Translate Text", 7500, 11.25F, R.drawable.translate_logo, true, 20);

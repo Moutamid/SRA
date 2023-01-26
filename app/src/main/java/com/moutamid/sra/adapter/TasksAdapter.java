@@ -43,8 +43,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskVH> {
     public void onBindViewHolder(@NonNull TaskVH holder, int position) {
         TasksModel model = list.get(position);
         holder.name.setText(model.getName());
-        holder.amount.setText("Required amount : "+model.getAmount());
-        holder.income.setText("income : "+model.getIncome());
+        holder.amount.setText("Required amount : $"+model.getAmount());
+        holder.income.setText("income : "+model.getIncome()+"%");
         Glide.with(context).load(model.getImage()).into(holder.image);
 
         if (model.isLock()){

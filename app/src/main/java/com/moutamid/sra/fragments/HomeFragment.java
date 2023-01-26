@@ -151,18 +151,21 @@ public class HomeFragment extends Fragment {
                     if (task.getName().equalsIgnoreCase("captcha")) {
                         Intent i = new Intent(context, CaptchaTaskActivity.class);
                         i.putExtra("assets", assets);
+                        i.putExtra("amount", task.getAmount());
                         i.putExtra("income", task.getIncome());
                         i.putExtra("total", task.getTotal());
                         startActivity(i);
                     } else if (task.getName().equalsIgnoreCase("Translate Text")) {
                         Intent i = new Intent(context, TranslateTaskActivity.class);
                         i.putExtra("assets", assets);
+                        i.putExtra("amount", task.getAmount());
                         i.putExtra("income", task.getIncome());
                         i.putExtra("total", task.getTotal());
                         startActivity(i);
                     } else if (task.getName().equalsIgnoreCase("Amazon")) {
                         Intent i = new Intent(context, AmazonTaskActivity.class);
                         i.putExtra("assets", assets);
+                        i.putExtra("amount", task.getAmount());
                         i.putExtra("income", task.getIncome());
                         i.putExtra("total", task.getTotal());
                         startActivity(i);

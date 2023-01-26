@@ -25,7 +25,7 @@ import java.util.Map;
 public class CaptchaTaskActivity extends AppCompatActivity {
     ActivityCaptchaTaskBinding binding;
     ArrayList<CaptchaModel> list;
-    int i = 0, totalListSize;
+    int i = 0, totalListSize, amount;
     float income, assets;
     ProgressDialog progressDialog;
     String mDate;
@@ -45,8 +45,9 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         assets = getIntent().getFloatExtra("assets", 0.0F);
         income = getIntent().getFloatExtra("income", 0.0F);
         totalListSize = getIntent().getIntExtra("total", 0);
+        amount = getIntent().getIntExtra("amount", 0);
 
-        percentage = (income/100)*assets;
+        percentage = (income/100)*amount;
 
         list = new ArrayList<>();
 
