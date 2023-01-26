@@ -28,7 +28,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
     int i = 0, totalListSize, amount;
     float income, assets;
     ProgressDialog progressDialog;
-    String mDate;
+    String mDate, uid;
     float percentage;
     float d;
 
@@ -46,8 +46,8 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         income = getIntent().getFloatExtra("income", 0.0F);
         totalListSize = getIntent().getIntExtra("total", 0);
         amount = getIntent().getIntExtra("amount", 0);
-
-        percentage = (income/100)*amount;
+        uid = getIntent().getStringExtra("uid");
+        percentage = (income/100)*assets;
 
         list = new ArrayList<>();
 
@@ -83,6 +83,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                         Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
+                                Stash.put((mDate+uid), false);
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
                                 onBackPressed();

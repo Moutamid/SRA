@@ -70,7 +70,6 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
         no.setOnClickListener(this);
         buy.setOnClickListener(this);
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -23,7 +23,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
     int i = 0;
     float d,percentage, assets;
     float income;
-    String mDate;
+    String mDate, uid;
     ProgressDialog progressDialog;
     ArrayList<TranslateModel> list;
     int totalListSize,amount;
@@ -41,6 +41,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
         income = getIntent().getFloatExtra("income", 0.0F);
         totalListSize = getIntent().getIntExtra("total", 0);
         amount = getIntent().getIntExtra("amount", 0);
+        uid = getIntent().getStringExtra("uid");
 
         percentage = (income/100)*amount;
 
@@ -78,6 +79,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
                         Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(map).addOnSuccessListener(unused -> {
+                                    Stash.put((mDate+uid), false);
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
                                     onBackPressed();
