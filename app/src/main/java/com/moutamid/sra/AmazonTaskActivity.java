@@ -169,9 +169,9 @@ public class AmazonTaskActivity extends AppCompatActivity {
             binding.grabbed.setText(i+" / " +totalListSize);
             if(i==totalListSize){
                 progressDialog.show();
-                d = d + percentage;
+                d = (float) (d + percentage);
                 Map<String, Object> map = new HashMap<>();
-                map.put("assets", (amount + percentage));
+                map.put("assets", (assets + percentage));
                 Stash.put(mDate, d);
                 Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                         .updateChildren(map).addOnSuccessListener(unused -> {
