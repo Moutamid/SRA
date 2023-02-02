@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment {
         String te = String.format(Locale.getDefault(), "%.2f", d);
 
         binding.todayEarning.setText("$" + te);
+       // binding.depositAmount.setText("$" + s);
 
         getData();
 
@@ -93,16 +94,19 @@ public class HomeFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         UserModel model = snapshot.getValue(UserModel.class);
                         binding.username.setText(model.getUsername());
-                        //binding.totalAssetsCount.setText("$" + model.getAssets());
-                        String a = String.format(Locale.getDefault(), "%.2f", model.getAssets());
+                        String u = String.format(Locale.getDefault(), "%.2f", model.getAssets());
+                        binding.totalAssetsCount.setText("$" + u);
+                        String a = String.format(Locale.getDefault(), "%.2f", model.getPromotionValue());
                         binding.promotionBonus.setText("$" + a);
-                        String s = String.format(Locale.getDefault(), "%.2f", model.getDeposit());
+                        String d = String.format(Locale.getDefault(), "%.2f", model.getDeposit());
+                        binding.depositAmount.setText("$" + d);
+                        /*String s = String.format(Locale.getDefault(), "%.2f", model.getDeposit());
                         binding.depositAmount.setText("$" + s);
                         double dep = model.getDeposit();
                         double por = model.getAssets();
                         float tot = (float) (dep + por);
                         String t = String.format(Locale.getDefault(), "%.2f", tot);
-                        binding.totalAssetsCount.setText("$" + t);
+                        binding.totalAssetsCount.setText("$" + t);*/
                     }
 
                     @Override
@@ -148,7 +152,6 @@ public class HomeFragment extends Fragment {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String mDate = dateFormat.format(d);
                 if (Stash.getBoolean((mDate + task.getUid()), true)) {
-
                     int cur = Integer.parseInt(a.substring(0, 2));
                     if (cur >= 9 || cur == 0) {
                         assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));

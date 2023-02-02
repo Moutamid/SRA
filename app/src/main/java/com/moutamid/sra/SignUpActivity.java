@@ -101,11 +101,14 @@ public class SignUpActivity extends AppCompatActivity {
     private void addtask() {
         getData();
         for (int i =0; i<list.size(); i++){
+            int finalI = i;
             Constants.databaseReference().child("userTasks").child(Objects.requireNonNull(Constants.auth().getCurrentUser()).getUid()).child(list.get(i).getUid())
                     .setValue(list.get(i)).addOnSuccessListener(unused -> {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, LoginActivity.class));
+                        if (finalI ==list.size()-1){
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(this, LoginActivity.class));
+                        }
                     }).addOnFailureListener(e -> {
                         e.printStackTrace();
                     });

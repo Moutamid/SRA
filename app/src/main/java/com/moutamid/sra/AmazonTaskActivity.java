@@ -69,7 +69,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         amount = getIntent().getIntExtra("amount", 0);
         uid = getIntent().getStringExtra("uid");
 
-        percentage = (income/100)*amount;
+        percentage = (income/100)*assets;
 
         ordersList = new ArrayList<>();
 
@@ -170,8 +170,10 @@ public class AmazonTaskActivity extends AppCompatActivity {
             if(i==totalListSize){
                 progressDialog.show();
                 d = (float) (d + percentage);
+               // Toast.makeText(this, "percen 1" + percentage, Toast.LENGTH_SHORT).show();
                 Map<String, Object> map = new HashMap<>();
                 map.put("assets", (assets + percentage));
+               // Toast.makeText(this, "percen 2" + percentage, Toast.LENGTH_SHORT).show();
                 Stash.put(mDate, d);
                 Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                         .updateChildren(map).addOnSuccessListener(unused -> {
@@ -457,7 +459,5 @@ public class AmazonTaskActivity extends AppCompatActivity {
         total = model20.getQuantity() * model20.getPrice();
         model20.setTotal(total);
         ordersList.add(model20);
-
-
     }
 }

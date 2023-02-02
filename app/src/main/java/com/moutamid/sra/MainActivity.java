@@ -42,10 +42,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         .get()
                 .addOnSuccessListener(dataSnapshot -> {
                     UserModel model = dataSnapshot.getValue(UserModel.class);
-
+                    double assets = model.getAssets();
                     if (!model.isReceivePrice()){
                         Map<String, Object> update = new HashMap<>();
-                        update.put("assets", 5);
+                        update.put("assets", assets + 5);
+                        update.put("promotionValue", 5);
                         update.put("receivePrice", true);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                                 .updateChildren(update)
@@ -74,23 +75,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         if (dataSnapshot.exists()) {
                             UserModel model = dataSnapshot.getValue(UserModel.class);
                             double assets = 0;
+                            double promotionValue = 0;
                             try {
                                 assets = model.getAssets();
+                                promotionValue = model.getPromotionValue();
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
                             update.put("assets", assets + 5);
+                            update.put("promotionValue", promotionValue + 5);
                             Constants.databaseReference().child("users").child(ID)
                                     .updateChildren(update).addOnSuccessListener(unused -> {
                                         progressDialog.dismiss();
                                     }).addOnFailureListener(e -> {
-
+                                        progressDialog.dismiss();
                                     });
                         }
                     }).addOnFailureListener(e -> {
                         progressDialog.dismiss();
                     });
         } catch (Exception e){
+            progressDialog.dismiss();
             e.printStackTrace();
         }
     }

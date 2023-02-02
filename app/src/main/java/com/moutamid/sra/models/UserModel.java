@@ -3,7 +3,6 @@ package com.moutamid.sra.models;
 public class UserModel {
     String ID, username, email, password, whatsapp, referralCode, invitationCode;
     int vipLevel;
-
     double assets, earning, deposit, promotionValue;
     boolean isVIP, receivePrice;
 

@@ -74,40 +74,19 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnYes:
-                if (assets >= tasksModel.getAmount()) {
-                    progressDialog.show();
+                progressDialog.show();
+                String uid = UUID.randomUUID().toString();
+                Date d = new Date();
 
-                    String uid = UUID.randomUUID().toString();
-                    Date d = new Date();
+                Tasks task = new Tasks(uid, tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
 
-                    Tasks task = new Tasks(uid, tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
-
-                    Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
-                            .child(uid).setValue(task).addOnSuccessListener(unused -> {
-                                progressDialog.dismiss();
-                                Toast.makeText(c, "Request Sent", Toast.LENGTH_SHORT).show();
-                            }).addOnFailureListener(e -> {
-                                progressDialog.dismiss();
-                            });
-
-                    /*Map<String, Object> map = new HashMap<>();
-                    map.put("deposit", assets - tasksModel.getAmount());
-                    tasksModel.setLock(false);
-
-                    Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
-                            .updateChildren(map).addOnSuccessListener(unused -> {
-                                database.TaskDao().update(tasksModel.getId(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.getImage(), tasksModel.isLock());
-                                list.clear();
-                                list.addAll(database.TaskDao().getAll());
-                                adapter.notifyDataSetChanged();
-                                progressDialog.dismiss();
-                            }).addOnFailureListener(e -> {
-                                progressDialog.dismiss();
-                            });*/
-
-                } else {
-                    Toast.makeText(c.getApplicationContext(), "Not Enough Assets", Toast.LENGTH_SHORT).show();
-                }
+                Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
+                        .child(uid).setValue(task).addOnSuccessListener(unused -> {
+                            progressDialog.dismiss();
+                            Toast.makeText(c, "Request Sent", Toast.LENGTH_SHORT).show();
+                        }).addOnFailureListener(e -> {
+                            progressDialog.dismiss();
+                        });
                 break;
             case R.id.btnCancel:
                 dismiss();

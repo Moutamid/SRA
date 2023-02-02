@@ -43,7 +43,7 @@ public class TranslateTaskActivity extends AppCompatActivity {
         amount = getIntent().getIntExtra("amount", 0);
         uid = getIntent().getStringExtra("uid");
 
-        percentage = (income/100)*amount;
+        percentage = (income/100)*assets;
 
         list = new ArrayList<>();
 

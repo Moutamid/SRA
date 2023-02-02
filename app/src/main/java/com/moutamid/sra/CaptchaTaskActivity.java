@@ -49,6 +49,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
         uid = getIntent().getStringExtra("uid");
         percentage = (income/100)*assets;
 
+         Toast.makeText(this, "percen " + percentage, Toast.LENGTH_SHORT).show();
         list = new ArrayList<>();
 
         addCaptcha();
@@ -78,6 +79,7 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                     } else {
                         progressDialog.show();
                         d = (float) (d + percentage);
+                         Toast.makeText(this, "percen " + percentage, Toast.LENGTH_SHORT).show();
                         Map<String, Object> map = new HashMap<>();
                         map.put("assets", (assets + percentage));
                         Stash.put(mDate, d);
