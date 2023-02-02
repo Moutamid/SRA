@@ -31,6 +31,8 @@ import com.moutamid.sra.databinding.FragmentProfileBinding;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
 
+import java.util.Locale;
+
 public class ProfileFragment extends Fragment {
 
     FragmentProfileBinding binding;
@@ -59,7 +61,8 @@ public class ProfileFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 binding.username.setText(snapshot.getValue(UserModel.class).getUsername());
                                 binding.id.setText(Constants.auth().getCurrentUser().getUid());
-                                binding.totalAssetsCount.setText("$" + snapshot.getValue(UserModel.class).getAssets());
+                                String u = String.format(Locale.getDefault(), "%.2f", snapshot.getValue(UserModel.class).getAssets());
+                                binding.totalAssetsCount.setText("$" + u);
                             }
 
                             @Override
