@@ -90,7 +90,7 @@ public class WithdrawActivity extends AppCompatActivity {
                     WithdrawRequestModel model = new WithdrawRequestModel(uid,
                             binding.hashkey.getEditText().getText().toString(),
                             Constants.auth().getCurrentUser().getUid(),
-                            Integer.parseInt(binding.amount.getEditText().getText().toString()), d.getTime(), "PEN", "WITH");
+                            Double.parseDouble(binding.amount.getEditText().getText().toString()), d.getTime(), "PEN", "WITH");
                     Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
                             .child(uid).setValue(model).addOnSuccessListener(unused -> {
                                 progressDialog.dismiss();

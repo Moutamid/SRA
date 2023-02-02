@@ -2,21 +2,21 @@ package com.moutamid.sra.models;
 
 public class WithdrawRequestModel {
     String ID, hashKey, userID;
-    int amount;
+    double amount;
     long timestamps;
     String status, type;
 
     public WithdrawRequestModel() {
     }
 
-    public WithdrawRequestModel(String ID, String hashKey, String userID, int amount) {
+    public WithdrawRequestModel(String ID, String hashKey, String userID, double amount) {
         this.ID = ID;
         this.hashKey = hashKey;
         this.userID = userID;
         this.amount = amount;
     }
 
-    public WithdrawRequestModel(String ID, String hashKey, String userID, int amount, long timestamps, String status, String type) {
+    public WithdrawRequestModel(String ID, String hashKey, String userID, double amount, long timestamps, String status, String type) {
         this.ID = ID;
         this.hashKey = hashKey;
         this.userID = userID;
@@ -74,11 +74,11 @@ public class WithdrawRequestModel {
         this.userID = userID;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }
