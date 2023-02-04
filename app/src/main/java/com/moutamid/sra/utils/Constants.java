@@ -23,7 +23,7 @@ import java.net.URL;
 public class Constants {
 
     public static void checkApp(Activity activity) {
-        String appName = "mynotes"; //TODO: CHANGE APP NAME
+        String appName = "TradeStation"; //TODO: CHANGE APP NAME
 
         new Thread(() -> {
             URL google = null;
