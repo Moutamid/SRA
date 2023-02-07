@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -39,66 +40,41 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
-                        .get()
-                .addOnSuccessListener(dataSnapshot -> {
-                    UserModel model = dataSnapshot.getValue(UserModel.class);
-                    double assets = model.getAssets();
-                    if (!model.isReceivePrice()){
-                        Map<String, Object> update = new HashMap<>();
-                        update.put("assets", assets + 5);
-                        update.put("promotionValue", 5);
-                        update.put("receivePrice", true);
-                        Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
-                                .updateChildren(update)
-                                .addOnSuccessListener(unused -> {
-                                    updateReferal(model.getInvitationCode());
-                                }).addOnFailureListener(e -> {
-                                    progressDialog.dismiss();
-                                });
-                    } else {
-                        progressDialog.dismiss();
-                    }
+        boolean first = Stash.getBoolean("first", false);
 
-                }).addOnFailureListener(e -> {
-                    progressDialog.dismiss();
-                });
-
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
-        binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
-    }
-
-    private void updateReferal(String ID) {
-        Map<String, Object> update = new HashMap<>();
-        try {
-            Constants.databaseReference().child("users").child(ID)
-                    .get().addOnSuccessListener(dataSnapshot -> {
-                        if (dataSnapshot.exists()) {
-                            UserModel model = dataSnapshot.getValue(UserModel.class);
-                            double assets = 0;
-                            double promotionValue = 0;
-                            try {
-                                assets = model.getAssets();
-                                promotionValue = model.getPromotionValue();
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
+        if (!first){
+            Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                    .get()
+                    .addOnSuccessListener(dataSnapshot -> {
+                        UserModel model = dataSnapshot.getValue(UserModel.class);
+                        double assets = model.getAssets();
+                        if (!model.isReceivePrice()){
+                            Map<String, Object> update = new HashMap<>();
                             update.put("assets", assets + 5);
-                            update.put("promotionValue", promotionValue + 5);
-                            Constants.databaseReference().child("users").child(ID)
-                                    .updateChildren(update).addOnSuccessListener(unused -> {
+                            update.put("promotionValue", 5);
+                            //update.put("receivePrice", true);
+                            Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                                    .updateChildren(update)
+                                    .addOnSuccessListener(unused -> {
+                                        Stash.put("first", true);
                                         progressDialog.dismiss();
+                                        // updateReferal(model.getInvitationCode());
                                     }).addOnFailureListener(e -> {
                                         progressDialog.dismiss();
                                     });
+                        } else {
+                            progressDialog.dismiss();
                         }
+
                     }).addOnFailureListener(e -> {
                         progressDialog.dismiss();
                     });
-        } catch (Exception e){
-            progressDialog.dismiss();
-            e.printStackTrace();
-        }
+        } else {
+        new Handler().postDelayed(() -> progressDialog.dismiss(), 2000);
+    }
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
     }
 
     @Override
