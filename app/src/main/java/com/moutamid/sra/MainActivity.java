@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         progressDialog.dismiss();
                     });
         } else {
-        new Handler().postDelayed(() -> progressDialog.dismiss(), 2000);
+        new Handler().postDelayed(() -> progressDialog.dismiss(), 6000);
     }
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);

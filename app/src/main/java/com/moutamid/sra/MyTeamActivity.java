@@ -67,7 +67,7 @@ public class MyTeamActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     UserModel user = snapshot.getValue(UserModel.class);
-                    teamList.add(new TeamModel(user.getID(), user.getUsername(), user.getEarning()));
+                    teamList.add(new TeamModel(user.getID(), user.getUsername(), user.getAssets()));
                     adapter = new TeamAdapter(MyTeamActivity.this, teamList);
                     binding.teamRC.setAdapter(adapter);
                 }
