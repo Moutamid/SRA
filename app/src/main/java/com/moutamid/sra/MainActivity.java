@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         boolean first = Stash.getBoolean("first", false);
 
-        Toast.makeText(this, ""+first, Toast.LENGTH_SHORT).show();
-
         if (!first){
             Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                     .get()
