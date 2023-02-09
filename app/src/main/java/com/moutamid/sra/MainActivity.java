@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         progressDialog.show();
 
         boolean first = Stash.getBoolean("first", false);
+
+        Toast.makeText(this, ""+first, Toast.LENGTH_SHORT).show();
 
         if (!first){
             Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())

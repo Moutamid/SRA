@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(context, "You can perform a task once a day", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                assets = Float.parseFloat(binding.depositAmount.getText().toString().substring(1));
+                assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
                 dialog = new UnlockDialog((Activity) context, task, list, adapter, assets);
                 dialog.show();
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

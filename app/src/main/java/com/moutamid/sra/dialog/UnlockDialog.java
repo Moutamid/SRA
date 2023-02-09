@@ -74,19 +74,23 @@ public class UnlockDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnYes:
-                progressDialog.show();
-                String uid = UUID.randomUUID().toString();
-                Date d = new Date();
+                if(assets > 5){
+                    progressDialog.show();
+                    String uid = UUID.randomUUID().toString();
+                    Date d = new Date();
 
-                Tasks task = new Tasks(uid, tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
+                    Tasks task = new Tasks(uid, tasksModel.getUid(), tasksModel.getName(), tasksModel.getAmount(), tasksModel.getIncome(), tasksModel.isLock(), tasksModel.getTotal(), Constants.auth().getCurrentUser().getUid(), d.getTime(), "PEN", "TASK");
 
-                Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
-                        .child(uid).setValue(task).addOnSuccessListener(unused -> {
-                            progressDialog.dismiss();
-                            Toast.makeText(c, "Request Sent", Toast.LENGTH_SHORT).show();
-                        }).addOnFailureListener(e -> {
-                            progressDialog.dismiss();
-                        });
+                    Constants.databaseReference().child("Request").child(Constants.auth().getCurrentUser().getUid())
+                            .child(uid).setValue(task).addOnSuccessListener(unused -> {
+                                progressDialog.dismiss();
+                                Toast.makeText(c, "Request Sent", Toast.LENGTH_SHORT).show();
+                            }).addOnFailureListener(e -> {
+                                progressDialog.dismiss();
+                            });
+                } else {
+                    Toast.makeText(c, "Please Deposit Some Amount First", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btnCancel:
                 dismiss();

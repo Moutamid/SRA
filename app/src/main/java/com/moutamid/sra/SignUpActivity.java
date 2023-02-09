@@ -107,6 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if (finalI ==list.size()-1){
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
+                            Constants.auth().signOut();
                             startActivity(new Intent(this, LoginActivity.class));
                         }
                     }).addOnFailureListener(e -> {
