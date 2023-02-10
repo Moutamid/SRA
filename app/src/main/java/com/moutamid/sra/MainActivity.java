@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     ActivityMainBinding binding;
     ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +44,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         boolean first = Stash.getBoolean("first", false);
 
-        if (!first){
+        if (!first) {
             Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                     .get()
                     .addOnSuccessListener(dataSnapshot -> {
                         UserModel model = dataSnapshot.getValue(UserModel.class);
                         double assets = model.getAssets();
-                        if (!model.isReceivePrice()){
+                        if (!model.isFirstTime()) {
                             Map<String, Object> update = new HashMap<>();
                             update.put("assets", assets + 5);
                             update.put("promotionValue", 5);
@@ -58,7 +59,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                     .updateChildren(update)
                                     .addOnSuccessListener(unused -> {
                                         Stash.put("first", true);
-                                        progressDialog.dismiss();
+                                        Map<String, Object> firstTime = new HashMap<>();
+                                        firstTime.put("firstTime", true);
+                                        Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
+                                                .updateChildren(firstTime).addOnSuccessListener(unused1 -> {
+                                                    progressDialog.dismiss();
+                                                }).addOnFailureListener(e -> {
+                                                    progressDialog.dismiss();
+                                                });
                                         // updateReferal(model.getInvitationCode());
                                     }).addOnFailureListener(e -> {
                                         progressDialog.dismiss();
@@ -66,13 +74,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         } else {
                             progressDialog.dismiss();
                         }
-
                     }).addOnFailureListener(e -> {
                         progressDialog.dismiss();
                     });
         } else {
-        new Handler().postDelayed(() -> progressDialog.dismiss(), 6000);
-    }
+            new Handler().postDelayed(() -> progressDialog.dismiss(), 6000);
+        }
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
         binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.nav_home:
                 binding.toolbarTittle.setText("Home");
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout , new HomeFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new HomeFragment()).commit();
                 return true;
 
             case R.id.nav_history:
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Uri uri = new Uri.Builder().scheme("http").authority("telegram.me").appendEncodedPath("+13366851283").build();
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri).setPackage("org.telegram.messenger"));
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return true;

@@ -4,12 +4,11 @@ public class UserModel {
     String ID, username, email, password, whatsapp, referralCode, invitationCode;
     int vipLevel;
     double assets, earning, deposit, promotionValue;
-    boolean isVIP, receivePrice;
-
+    boolean isVIP, receivePrice, firstTime;
     public UserModel() {
     }
 
-    public UserModel(String ID, String username, String email, String password, String whatsapp, String invitationCode, double assets, double earning, double deposit, double promotionValue, boolean receivePrice) {
+    public UserModel(String ID, String username, String email, String password, String whatsapp, String invitationCode, double assets, double earning, double deposit, double promotionValue, boolean receivePrice, boolean firstTime) {
         this.ID = ID;
         this.username = username;
         this.email = email;
@@ -21,6 +20,7 @@ public class UserModel {
         this.deposit = deposit;
         this.promotionValue = promotionValue;
         this.receivePrice = receivePrice;
+        this.firstTime = firstTime;
     }
 
     public double getEarning() {
@@ -133,5 +133,13 @@ public class UserModel {
 
     public void setInvitationCode(String invitationCode) {
         this.invitationCode = invitationCode;
+    }
+
+    public boolean isFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(boolean firstTime) {
+        this.firstTime = firstTime;
     }
 }

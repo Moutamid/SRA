@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
                             ""+binding.password.getEditText().getText().toString(),
                             ""+binding.whatsapp.getEditText().getText().toString(),
                             ""+binding.invitationCode.getEditText().getText().toString(),
-                            0, 0.0, 0.0, 0.0, false
+                            0, 0.0, 0.0, 0.0, false, false
                     );
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .setValue(userModel).addOnSuccessListener(unused -> {
