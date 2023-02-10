@@ -69,7 +69,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         amount = getIntent().getIntExtra("amount", 0);
         uid = getIntent().getStringExtra("uid");
 
-        percentage = (income/100)*assets;
+        percentage = (income / 100) * assets;
 
         ordersList = new ArrayList<>();
 
@@ -94,8 +94,8 @@ public class AmazonTaskActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.totalAssetsCount.setText("$"+assets);
-        binding.grabbed.setText(i+" / "+totalListSize);
+        binding.totalAssetsCount.setText("$" + assets);
+        binding.grabbed.setText(i + " / " + totalListSize);
 
         binding.back.setOnClickListener(v -> {
             onBackPressed();
@@ -103,7 +103,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         });
 
         binding.btnGrab.setOnClickListener(v -> {
-            if (i<totalListSize){
+            if (i < totalListSize) {
                 binding.grabbingText.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.SlideInDown)
                         .duration(1000)
@@ -151,43 +151,49 @@ public class AmazonTaskActivity extends AppCompatActivity {
         MaterialCardView submit = dialog.findViewById(R.id.btn_submit);
         MaterialCardView close = dialog.findViewById(R.id.btn_close);
 
-        SimpleDateFormat format =new SimpleDateFormat("yyyy/MM/dd, hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd, hh:mm:ss", Locale.getDefault());
         Date date = new Date();
 
         productImage.setImageResource(model.getImage());
         name.setText(model.getName());
-        price.setText("$"+model.getPrice());
-        quantity.setText("x"+model.getQuantity());
+        price.setText("$" + model.getPrice());
+        quantity.setText("x" + model.getQuantity());
         id.setText(model.getID());
         time.setText(format.format(date));
-        total.setText("$"+String.format(Locale.getDefault(), "%.2f", model.getTotal()));
-        commission.setText("$"+String.format(Locale.getDefault(), "%.2f", model.getCommission()));
+        total.setText("$" + String.format(Locale.getDefault(), "%.2f", model.getTotal()));
+        commission.setText("$" + String.format(Locale.getDefault(), "%.2f", model.getCommission()));
 
         submit.setOnClickListener(v -> {
             ++i;
             dialog.dismiss();
-            binding.grabbed.setText(i+" / " +totalListSize);
-            if(i==totalListSize){
+            binding.grabbed.setText(i + " / " + totalListSize);
+            if (i == totalListSize) {
                 progressDialog.show();
                 d = (float) (d + percentage);
-               // Toast.makeText(this, "percen 1" + percentage, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "percen 1" + percentage, Toast.LENGTH_SHORT).show();
                 Map<String, Object> map = new HashMap<>();
                 map.put("assets", (assets + percentage));
-               // Toast.makeText(this, "percen 2" + percentage, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "percen 2" + percentage, Toast.LENGTH_SHORT).show();
                 Stash.put(mDate, d);
                 Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                         .updateChildren(map).addOnSuccessListener(unused -> {
-                            Stash.put((mDate+uid), false);
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            finish();
+                            Map<String, Object> dateMap = new HashMap<>();
+                            dateMap.put("date", (mDate));
+                            Constants.databaseReference().child("date").child(Constants.auth().getCurrentUser().getUid())
+                                    .setValue(dateMap).addOnSuccessListener(unused1 -> {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        finish();
+                                    }).addOnFailureListener(e -> {
+                                        progressDialog.dismiss();
+                                    });
+
                         }).addOnFailureListener(e -> {
                             progressDialog.dismiss();
                         });
             }
         });
-
         close.setOnClickListener(v -> {
             dialog.dismiss();
         });
@@ -447,7 +453,7 @@ public class AmazonTaskActivity extends AppCompatActivity {
         model19.setTotal(total);
         ordersList.add(model19);
 
-        ID =UUID.randomUUID().toString();
+        ID = UUID.randomUUID().toString();
         OrdersModel model20 = new OrdersModel();
         model20.setID(ID);
         model20.setName("WYZE Cam v3 with Color Night Vision, Wired 1080p HD Indoor-Outdoor Video Camera, 2-Way Audio, Works with Alexa,");

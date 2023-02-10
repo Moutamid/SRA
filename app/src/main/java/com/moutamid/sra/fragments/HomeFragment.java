@@ -36,6 +36,7 @@ import com.moutamid.sra.database.TaskDB;
 import com.moutamid.sra.databinding.FragmentHomeBinding;
 import com.moutamid.sra.dialog.UnlockDialog;
 import com.moutamid.sra.listners.ClickListner;
+import com.moutamid.sra.models.DateModel;
 import com.moutamid.sra.models.TasksModel;
 import com.moutamid.sra.models.UserModel;
 import com.moutamid.sra.utils.Constants;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment {
         String te = String.format(Locale.getDefault(), "%.2f", d);
 
         binding.todayEarning.setText("$" + te);
-       // binding.depositAmount.setText("$" + s);
+        // binding.depositAmount.setText("$" + s);
 
         getData();
 
@@ -146,81 +147,91 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(TasksModel task) {
             if (!task.isLock()) {
-                Date d = new Date();
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm aa");
-                String a = format.format(d);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                String mDate = dateFormat.format(d);
-                if (Stash.getBoolean((mDate + task.getUid()), true)) {
-                    int cur = Integer.parseInt(a.substring(0, 2));
-                    if (cur >= 9 || cur == 0) {
-                        assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
-                        if (task.getName().equalsIgnoreCase("captcha")) {
-                            Intent i = new Intent(context, CaptchaTaskActivity.class);
-                            i.putExtra("assets", assets);
-                            i.putExtra("amount", task.getAmount());
-                            i.putExtra("uid", task.getUid());
-                            i.putExtra("income", task.getIncome());
-                            i.putExtra("total", task.getTotal());
-                            startActivity(i);
-                        } else if (task.getName().equalsIgnoreCase("Translate Text")) {
-                            Intent i = new Intent(context, TranslateTaskActivity.class);
-                            i.putExtra("assets", assets);
-                            i.putExtra("amount", task.getAmount());
-                            i.putExtra("income", task.getIncome());
-                            i.putExtra("uid", task.getUid());
-                            i.putExtra("total", task.getTotal());
-                            startActivity(i);
-                        } else if (task.getName().equalsIgnoreCase("Amazon")) {
-                            Intent i = new Intent(context, AmazonTaskActivity.class);
-                            i.putExtra("assets", assets);
-                            i.putExtra("amount", task.getAmount());
-                            i.putExtra("income", task.getIncome());
-                            i.putExtra("uid", task.getUid());
-                            i.putExtra("total", task.getTotal());
-                            startActivity(i);
-                        }
-                    } else {
-                        Toast.makeText(context, "You can only do your task between 9:00 Am to 12:00 AM", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(context, "You can perform a task once a day", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
-                dialog = new UnlockDialog((Activity) context, task, list, adapter, assets);
-                dialog.show();
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
-        }
-    };
-
-    private void getData() {
-
-        Constants.databaseReference().child("userTasks").child(Constants.auth().getCurrentUser().getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            list.clear();
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                TasksModel model = dataSnapshot.getValue(TasksModel.class);
-                                list.add(model);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    Collections.sort(list, Comparator.comparing(TasksModel::getIncome));
+                Constants.databaseReference().child("date").child(Constants.auth().getCurrentUser().getUid())
+                        .get().addOnSuccessListener(dataSnapshot -> {
+                            if (dataSnapshot.exists()) {
+                                DateModel date = dataSnapshot.getValue(DateModel.class);
+                                Date d = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm aa");
+                                String a = format.format(d);
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                String mDate = dateFormat.format(d);
+                                if (!date.getDate().equals(mDate)) {
+                                    int cur = Integer.parseInt(a.substring(0, 2));
+                                    if (cur >= 9 || cur == 0) {
+                                        assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
+                                        if (task.getName().equalsIgnoreCase("captcha")) {
+                                            Intent i = new Intent(context, CaptchaTaskActivity.class);
+                                            i.putExtra("assets", assets);
+                                            i.putExtra("amount", task.getAmount());
+                                            i.putExtra("uid", task.getUid());
+                                            i.putExtra("income", task.getIncome());
+                                            i.putExtra("total", task.getTotal());
+                                            startActivity(i);
+                                        } else if (task.getName().equalsIgnoreCase("Translate Text")) {
+                                            Intent i = new Intent(context, TranslateTaskActivity.class);
+                                            i.putExtra("assets", assets);
+                                            i.putExtra("amount", task.getAmount());
+                                            i.putExtra("income", task.getIncome());
+                                            i.putExtra("uid", task.getUid());
+                                            i.putExtra("total", task.getTotal());
+                                            startActivity(i);
+                                        } else if (task.getName().equalsIgnoreCase("Amazon")) {
+                                            Intent i = new Intent(context, AmazonTaskActivity.class);
+                                            i.putExtra("assets", assets);
+                                            i.putExtra("amount", task.getAmount());
+                                            i.putExtra("income", task.getIncome());
+                                            i.putExtra("uid", task.getUid());
+                                            i.putExtra("total", task.getTotal());
+                                            startActivity(i);
+                                        }
+                                    } else {
+                                        Toast.makeText(context, "You can only do your task between 9:00 Am to 12:00 AM", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(context, "You can perform a task once a day", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            if (adapter != null)
-                                adapter.notifyDataSetChanged();
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                } else {
+                    assets = Float.parseFloat(binding.totalAssetsCount.getText().toString().substring(1));
+                    dialog = new UnlockDialog((Activity) context, task, list, adapter, assets);
+                    dialog.show();
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
+            }
+        }
+
+        ;
+
+        private void getData() {
+
+            Constants.databaseReference().child("userTasks").child(Constants.auth().getCurrentUser().getUid())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                list.clear();
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    TasksModel model = dataSnapshot.getValue(TasksModel.class);
+                                    list.add(model);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                        Collections.sort(list, Comparator.comparing(TasksModel::getIncome));
+                                    }
+                                }
+                                if (adapter != null)
+                                    adapter.notifyDataSetChanged();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
 
         /*String uid = UUID.randomUUID().toString();
         TasksModel model1 = new TasksModel(uid, "Captcha", 50, 1.25F, R.drawable.captcha, true, 30);
@@ -258,5 +269,5 @@ public class HomeFragment extends Fragment {
         list.addAll(database.TaskDao().getAll());
         if (adapter != null)
             adapter.notifyDataSetChanged();*/
+        }
     }
-}

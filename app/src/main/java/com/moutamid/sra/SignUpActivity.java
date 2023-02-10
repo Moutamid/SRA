@@ -73,7 +73,14 @@ public class SignUpActivity extends AppCompatActivity {
                     );
                     Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .setValue(userModel).addOnSuccessListener(unused -> {
-                                addUser();
+                                Map<String, Object> dateMap = new HashMap<>();
+                                dateMap.put("date", "00/00/0000");
+                                Constants.databaseReference().child("date").child(Constants.auth().getCurrentUser().getUid())
+                                        .setValue(dateMap).addOnSuccessListener(unused1 -> {
+                                            addUser();
+                                        }).addOnFailureListener(e -> {
+                                            progressDialog.dismiss();
+                                        });
                             }).addOnFailureListener(e -> {
                                 progressDialog.dismiss();
                                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

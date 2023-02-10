@@ -85,11 +85,17 @@ public class CaptchaTaskActivity extends AppCompatActivity {
                         Stash.put(mDate, d);
                         Constants.databaseReference().child("users").child(Constants.auth().getCurrentUser().getUid())
                             .updateChildren(map).addOnSuccessListener(unused -> {
-                                Stash.put((mDate+uid), false);
-                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
-                                onBackPressed();
-                                finish();
+                                    Map<String, Object> dateMap = new HashMap<>();
+                                    dateMap.put("date", (mDate));
+                                    Constants.databaseReference().child("date").child(Constants.auth().getCurrentUser().getUid())
+                                            .setValue(dateMap).addOnSuccessListener(unused1 -> {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(getApplicationContext(), "Task Completed", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                                finish();
+                                            }).addOnFailureListener(e -> {
+                                                progressDialog.dismiss();
+                                            });
                             }).addOnFailureListener(e -> {
                                 progressDialog.dismiss();
                             });
