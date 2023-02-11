@@ -44,7 +44,8 @@ public class DepositActivity extends AppCompatActivity {
             finish();
         });
 
-        binding.hashKey.setText("TXLnyK6T7sDoagC293kKmaYYoGuvnUJxrV");
+                // TXLnyK6T7sDoagC293kKmaYYoGuvnUJxrV
+        binding.hashKey.setText("507440689");
 
         binding.hashKey.setOnClickListener(v -> {
             String str = binding.hashKey.getText().toString();
