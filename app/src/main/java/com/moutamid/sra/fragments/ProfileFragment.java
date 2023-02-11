@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
 
         binding.logout.setOnClickListener(v -> {
             Constants.auth().signOut();
-            //Stash.clear("first");
+            Stash.clear("first");
             startActivity(new Intent(context, SplashScreenActivity.class));
             getActivity().finish();
         });
