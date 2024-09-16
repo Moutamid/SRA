@@ -24,8 +24,10 @@ public class RulesActivity extends AppCompatActivity {
         binding.rules.setText("");
 
         Constants.databaseReference().child("rules").get().addOnSuccessListener(dataSnapshot -> {
-            String s = dataSnapshot.child("rules").getValue().toString();
-            binding.rules.setText(s);
+            if (dataSnapshot.exists()) {
+                String s = dataSnapshot.child("rules").getValue().toString();
+                binding.rules.setText(s);
+            }
         }).addOnFailureListener(e -> {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         });

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Constants.checkApp(this);
+       // Constants.checkApp(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait...");
